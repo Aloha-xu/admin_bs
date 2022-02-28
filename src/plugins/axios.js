@@ -1,6 +1,7 @@
 import axios from "axios";
 
-import { Loading, Notification } from "element-ui";
+// import { Loading, Notification } from "element-ui";
+import { Notification } from "element-ui";
 
 // 路由实例
 import router from "@/router";
@@ -12,7 +13,7 @@ axios.defaults.baseURL = "http://localhost:3003/";
 axios.interceptors.request.use(
   function(config) {
     // 在发送请求之前做些什么
-    loading = Loading.service({ background: "rgba(0, 0, 0, 0.8)" });
+    // loading = Loading.service({ background: "rgba(0, 0, 0, 0.8)" });
     // 排除登录、注册两个api,忽略token校验
     if (
       config.url == "/api/admin/login" ||
@@ -21,9 +22,17 @@ axios.interceptors.request.use(
       return config;
     }
     // 获取token，判断是否已经登录
-    let { token } = sessionStorage;
+    var token = document.cookie;
+    var cookies = token.split(";");
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i].split("=");
+      if (cookie[0].trim() == "token") {
+        var TOKEN = cookie[1];
+      }
+    }
+
     // 拥有token,在headers头添加token
-    config.headers.Authorization = `Bearer ${token}`;
+    config.headers.Authorization = `Bearer ${TOKEN}`;
     return config;
   },
   function(error) {
@@ -36,7 +45,7 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   function({ status, data, response }) {
     //在这里你可以判断后台返回数据携带的请求码
-    loading.close();
+    // loading.close();
     switch (status) {
       case 200:
         return data;
