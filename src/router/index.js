@@ -4,7 +4,9 @@ import Router from "vue-router";
 import { Menu } from "@/api/index";
 
 Vue.use(Router);
-// 1. import 进来views文件夹下的页面级组件。
+// 1. import 进来views文件夹下的页面级组件。 
+
+
 // layout
 import Layout from "@/components/Layout.vue";
 // 用户组
