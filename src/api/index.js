@@ -7,7 +7,6 @@ import Order from './modules/Order';
 import Upload from './modules/Upload';
 import Menu from './modules/Menu';
 import Icon from './modules/Icon';
-import PCCT from './modules/PCCT';
 
 export {
 	User,
@@ -19,5 +18,4 @@ export {
 	Order,
 	Upload,
 	Icon,
-	PCCT,
 };
