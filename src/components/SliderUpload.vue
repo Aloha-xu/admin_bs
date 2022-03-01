@@ -46,7 +46,7 @@ export default {
       dialogImageUrl: "",
       dialogVisible: false,
       headers: {
-        Authorization: `Bearer ${getToken}`,
+        Authorization: `Bearer ${getToken()}`,
       },
     };
   },
