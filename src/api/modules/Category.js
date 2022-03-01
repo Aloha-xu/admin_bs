@@ -1,13 +1,13 @@
 import axios from "axios";
 
 // 添加分类
-const add = (formData) => axios.post("/api/category", formData);
+const add = (data) => axios.post("/api/category/add", data);
 // 删除分类
-const remove = (id, params) => axios.post(`/api/category/${id}`, { params });
+const remove = (data) => axios.post(`/api/category/del`, data);
 // 更新分类
-const update = (id, formData) => axios.post(`/api/category/${id}`, formData);
+const update = (data) => axios.post(`/api/category/updata`, data);
 // 获取子级分类
-const load = (params) => axios.get("/api/category/sub", { params });
+const load = (data) => axios.post("/api/category/sub", data);
 
 export default {
   add,

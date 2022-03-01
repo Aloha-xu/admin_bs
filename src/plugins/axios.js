@@ -33,6 +33,7 @@ axios.interceptors.request.use(
 
     // 拥有token,在headers头添加token
     config.headers.Authorization = `Bearer ${TOKEN}`;
+    // console.log(config);
     return config;
   },
   function(error) {

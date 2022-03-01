@@ -1,11 +1,11 @@
 import axios from "axios";
 
 // 获取管理员列表
-const list = (params) => axios.get("/api/admin/list", { params });
+const list = (data) => axios.post("/api/admin/list", data);
 // 更新管理员个人资料
-const update = (formData) => axios.post("/api/admin/", formData);
+const update = (data) => axios.post("/api/admin/", data);
 // 删除管理员账户
-const remove = (id, params) => axios.post(`/api/admin/${id}`, { params });
+const remove = (data) => axios.post(`/api/admin/`, data);
 
 export default {
   list,

@@ -1,12 +1,19 @@
 <template>
   <div>
-    <el-upload class="avatar-uploader" :action="action" :headers="headers" :data="data" :show-file-list="false"
-               :on-success="handleUploadSuccess"
-               :on-error="handleUploadError" :before-upload="handleBeforeUpload">
+    <el-upload
+      class="avatar-uploader"
+      :action="action"
+      :headers="headers"
+      :data="data"
+      :show-file-list="false"
+      :on-success="handleUploadSuccess"
+      :on-error="handleUploadError"
+      :before-upload="handleBeforeUpload"
+    >
       <div v-if="url" @click.stop="handleRemove" class="cover">
         <i class="el-icon-delete avatar-uploader-icon"></i>
       </div>
-      <img v-if="url" :src="url" class="avatar">
+      <img v-if="url" :src="url" class="avatar" />
       <i v-else class="el-icon-plus avatar-uploader-icon"></i>
     </el-upload>
   </div>
@@ -16,8 +23,8 @@
 // 支持双向数据绑定，采用:url.sync
 // 支持$emit事件success,处理复杂上传成功回调函数
 
-import { Upload } from '@/api/index';
-
+import { Upload } from "@/api/index";
+import { getToken } from "@/plugins/util.js";
 export default {
   name: "MainPhotoUpload",
   // 组件外部数据
@@ -30,7 +37,7 @@ export default {
     },
     action: {
       type: String,
-      required: true
+      required: true,
     },
     data: {
       type: Object,
@@ -40,9 +47,9 @@ export default {
   data() {
     return {
       headers: {
-        Authorization: `Bearer ${sessionStorage.token}`
+        Authorization: `Bearer ${getToken()}`,
       },
-    }
+    };
   },
   methods: {
     // 上传图片之前的检查
@@ -51,10 +58,10 @@ export default {
       const isImg = reg.test(file.type);
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isImg) {
-        this.$message.error('上传头像图片只能是 JPG/PNG 格式!');
+        this.$message.error("上传头像图片只能是 JPG/PNG 格式!");
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
+        this.$message.error("上传头像图片大小不能超过 2MB!");
       }
       return isImg && isLt2M;
     },
@@ -64,7 +71,7 @@ export default {
       let { status: statusMd } = await Upload.remove({ src: this.url });
       let { status: statusLg } = await Upload.remove({ src: this.lgImg });
       if (statusMd && statusLg) {
-        this.$message.success('删除成功!');
+        this.$message.success("删除成功!");
         this.$emit("update:url", "");
         this.$emit("update:lgImg", "");
       }
@@ -72,11 +79,11 @@ export default {
     // 上传图片成功
     handleUploadSuccess(res, file) {
       let { status, mdImg, lgImg } = res;
-      this.$message.success('上传成功!');
+      this.$message.success("上传成功!");
       // 触发外部绑定的事件
-      this.$emit('success', res);
+      this.$emit("success", res);
       // 双向数据绑定触发
-      this.$emit('update:url', mdImg);
+      this.$emit("update:url", mdImg);
       this.$emit("update:lgImg", lgImg);
     },
     // 上传图片失败
@@ -94,7 +101,7 @@ export default {
           break;
       }
     },
-  }
+  },
 };
 </script>
 
@@ -107,7 +114,7 @@ export default {
   overflow: hidden;
 
   &:hover {
-    border-color: #409EFF;
+    border-color: #409eff;
   }
 
   .avatar-uploader-icon {

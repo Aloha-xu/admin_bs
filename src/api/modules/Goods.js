@@ -1,6 +1,6 @@
 import axios from "axios";
 //发布商品
-const release = (formData) => axios.post("/api/admin/goods", formData);
+const release = (data) => axios.post("/api/admin/release", data);
 //删除商品
 const remove = (id, params) => axios.post(`/api/admin/goods/${id}`, { params });
 //编辑商品
