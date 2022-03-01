@@ -426,9 +426,12 @@ export default {
     };
     editor.create();
   },
-  created() {
+  async created() {
+    //获取分类列表
+    let { data } = await Category.load({ pId: 1 });
+    this.cateIdBox = data;
     // 获取一级分类
-    this.handleCateChange();
+    // this.handleCateChange();
     // 获取所有省份
     // this.loadProvince();
 
@@ -453,23 +456,22 @@ export default {
   },
   methods: {
     //分类change事件
-    async handleCateChange() {
-      let { data, msg } = await Category.load({ pId: 1 });
-      this.cateIdBox = data;
-      this.$message.error(msg);
-      // if (!id) {
-      //   return false;
-      // }
-      // let data = await this.loadOptions(id);
-      // this[cate + "_options"] = data;
-      // //如果数组为空，下一级分类设置为空
-      // if (data.length == 0) {
-      //   this.form[cate] = undefined;
-      //   return false;
-      // }
-      // //默认选择数组第一项
-      // this.form[cate] = data[0].id;
-    },
+    // async handleCateChange() {
+    //   let { data} = await Category.load({ pId: 1 });
+    //   this.cateIdBox = data;
+    // if (!id) {
+    //   return false;
+    // }
+    // let data = await this.loadOptions(id);
+    // this[cate + "_options"] = data;
+    // //如果数组为空，下一级分类设置为空
+    // if (data.length == 0) {
+    //   this.form[cate] = undefined;
+    //   return false;
+    // }
+    // //默认选择数组第一项
+    // this.form[cate] = data[0].id;
+    // },
     //获取下一级分类
     // async loadOptions(id) {
     //   let { status, data, msg } = await Category.load({ pId: id });

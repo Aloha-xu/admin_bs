@@ -1,14 +1,14 @@
 import axios from "axios";
 //发布商品
-const release = (data) => axios.post("/api/admin/release", data);
+const release = (data) => axios.post("/api/admin/goods/release", data);
 //删除商品
-const remove = (id, params) => axios.post(`/api/admin/goods/${id}`, { params });
+const remove = (data) => axios.post("/api/admin/goods/del", data);
 //编辑商品
-const update = (id, formData) => axios.post(`/api/admin/goods/${id}`, formData);
+const update = (data) => axios.post("/api/admin/goods/updata", data);
 //商品列表
-const list = (params) => axios.get("/api/admin/goods/list", { params });
+const list = (data) => axios.post("/api/admin/goods/list", data);
 //商品详情
-const detail = (params) => axios.get("/api/admin/goods", { params });
+const detail = (data) => axios.post("/api/admin/goods/detail", data);
 
 export default {
   release,
