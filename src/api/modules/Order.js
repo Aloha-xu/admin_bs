@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
 
-const loadList = (params) => axios.get('/api/admin/order/list', { params });
+const loadList = (data) => axios.post("/api/admin/order/list", data);
 
 export default {
-    loadList,
-}
+  loadList,
+};

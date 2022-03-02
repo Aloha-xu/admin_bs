@@ -3,6 +3,15 @@
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <span>商品列表</span>
+        <el-input
+          placeholder="请输入商品名称"
+          v-model="searchValues"
+          @change="handleSearch"
+          clearable
+          style="width:200px;float:right"
+        >
+          <el-button slot="append" icon="el-icon-search"></el-button>
+        </el-input>
       </div>
       <!-- 表格 -->
       <el-table :data="tableData" style="width: 100%">
@@ -47,6 +56,12 @@
               plain
               type="danger"
             ></el-button>
+            <el-button
+              plain
+              @click="handleUpDownGoods(scope.row.state, scope.row.goodsId)"
+            >
+              {{ scope.row.state ? "下架" : "上架" }}
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -74,6 +89,7 @@ export default {
       total: 0,
       pageSize: 5,
       pageIndex: 1,
+      searchValues: "",
     };
   },
   created() {
@@ -85,6 +101,7 @@ export default {
       let { status, goods, total } = await Goods.list({
         pageIndex: this.pageIndex,
         pageSize: this.pageSize,
+        keyword: this.searchValues,
       });
       if (status) {
         this.tableData = goods;
@@ -115,6 +132,27 @@ export default {
         .catch(() => {
           this.$message.info("已取消删除");
         });
+    },
+    async handleUpDownGoods(state, goodsId) {
+      if (state) {
+        //下架
+        await Goods.state({
+          state: 0,
+          goodsId,
+        });
+      } else {
+        await Goods.state({
+          state: 1,
+          goodsId,
+        });
+      }
+      //刷新
+      this.loadGoodsList();
+    },
+    async handleSearch() {
+      this.pageIndex = 1;
+      this.pageSize = 5;
+      this.loadGoodsList();
     },
   },
 };

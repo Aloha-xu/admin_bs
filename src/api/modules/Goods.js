@@ -9,6 +9,8 @@ const update = (data) => axios.post("/api/admin/goods/updata", data);
 const list = (data) => axios.post("/api/admin/goods/list", data);
 //商品详情
 const detail = (data) => axios.post("/api/admin/goods/detail", data);
+//商品上下架
+const state = (data) => axios.post("/api/admin/goods/state", data);
 
 export default {
   release,
@@ -16,4 +18,5 @@ export default {
   update,
   list,
   detail,
+  state,
 };
