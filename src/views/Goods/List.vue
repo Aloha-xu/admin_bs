@@ -8,7 +8,7 @@
           v-model="searchValues"
           @change="handleSearch"
           clearable
-          style="width:200px;float:right"
+          style="width: 200px; float: right"
         >
           <el-button slot="append" icon="el-icon-search"></el-button>
         </el-input>
@@ -29,27 +29,26 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column sortable prop="price" label="价格"> </el-table-column>
-        <el-table-column sortable prop="inventory" label="库存">
-        </el-table-column>
-        <el-table-column sortable prop="createTime" label="发布时间">
-        </el-table-column>
+        <el-table-column sortable prop="price" label="价格"></el-table-column>
+        <el-table-column
+          sortable
+          prop="inventory"
+          label="库存"
+        ></el-table-column>
+        <el-table-column
+          sortable
+          prop="createTime"
+          label="发布时间"
+        ></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <router-link
-              class="am-margin-right-sm"
-              :to="{
-                name: 'GoodsEdit',
-                params: { goodsId: scope.row.goodsId },
-              }"
-            >
-              <el-button
-                type="primary"
-                plain
-                icon="el-icon-edit"
-                size="small"
-              ></el-button>
-            </router-link>
+            <el-button
+              type="primary"
+              plain
+              icon="el-icon-edit"
+              size="small"
+              @click="$router.push('edit/' + scope.row.goodsId)"
+            ></el-button>
             <el-button
               @click="showDeleteModal(scope.row.goodsId)"
               icon="el-icon-delete"
@@ -59,9 +58,8 @@
             <el-button
               plain
               @click="handleUpDownGoods(scope.row.state, scope.row.goodsId)"
+              >{{ scope.row.state ? "下架" : "上架" }}</el-button
             >
-              {{ scope.row.state ? "下架" : "上架" }}
-            </el-button>
           </template>
         </el-table-column>
       </el-table>

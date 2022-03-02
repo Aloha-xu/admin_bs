@@ -1,11 +1,19 @@
 <template>
   <div class="nav-bar">
     <div class="left">
-      <img class="logo am-margin-right-sm" src="../assets/img/common/logo.png">
-      <i @click="handleCollapse" class="el-icon-s-fold"></i>
+      <img
+        class="logo am-margin-right-sm"
+        src="../assets/img/common/logo.png"
+      />
+      <!-- <i @click="handleCollapse" class="el-icon-s-fold"></i> -->
     </div>
-    <el-menu mode="horizontal" router background-color="#31404e" text-color="#fff"
-             active-text-color="#ffd04b">
+    <el-menu
+      mode="horizontal"
+      router
+      background-color="#31404e"
+      text-color="#fff"
+      active-text-color="#ffd04b"
+    >
       <el-submenu index="1">
         <template slot="title">
           <el-avatar :src="avatar" :size="30"></el-avatar>
@@ -20,31 +28,31 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
   data() {
-    return {}
+    return {};
   },
   created() {
     this.loadUserInfo();
   },
   computed: {
-    ...mapGetters('User', ['fullname', 'avatar'])
+    ...mapGetters("User", ["fullname", "avatar"]),
   },
   methods: {
     handleCollapse() {
       this.$store.commit("Menu/ToggleMenu");
     },
     loadUserInfo() {
-      this.$store.dispatch("User/LoadInfo", { id: sessionStorage.id })
+      this.$store.dispatch("User/LoadInfo", { id: sessionStorage.id });
     },
     handleLogout() {
       sessionStorage.clear();
-      this.$router.replace('/login');
-    }
-  }
-}
+      this.$router.replace("/login");
+    },
+  },
+};
 </script>
 
 <style lang="less">
@@ -61,6 +69,5 @@ export default {
       height: 50px;
     }
   }
-
 }
 </style>

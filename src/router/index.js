@@ -15,6 +15,7 @@ import UserList from "@/views/User/List.vue";
 import UserInfo from "@/views/User/Info.vue";
 // 订单
 import OrderList from "@/views/Order/List.vue";
+import OrderDetail from "@/views/Order/Detail.vue";
 // 商品
 import GoodsCategory from "@/views/Goods/Category.vue";
 import GoodsList from "@/views/Goods/List";
@@ -70,7 +71,6 @@ const routes = [
         path: "edit/:id",
         name: "GoodsEdit",
         component: GoodsEdit,
-        props: true,
       },
     ],
   },
@@ -128,6 +128,11 @@ const routes = [
         path: "list",
         name: "OrderList",
         component: OrderList,
+      },
+      {
+        path: "detail/:id",
+        name: "OrderDetail",
+        component: OrderDetail,
       },
     ],
   },
