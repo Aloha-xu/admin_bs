@@ -234,7 +234,7 @@ export default {
         pageIndex: 1,
       });
       if (status) {
-        data.forEach(function (item) {
+        data.forEach(function(item) {
           item.createTime = getYMDHMS(+item.createTime * 1000);
         });
         this.tableData = data;

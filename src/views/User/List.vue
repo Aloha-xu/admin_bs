@@ -1,8 +1,9 @@
 <template>
   <div>
+    <!--  这是后台管理各种管理员的列表 -->
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>用户列表 列出用户即进去小程序的客户的信息</span>
+        <span>用户列表</span>
       </div>
       <el-table :data="tableData" style="width: 100%">
         <el-table-column prop="id" label="#"> </el-table-column>
@@ -257,5 +258,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

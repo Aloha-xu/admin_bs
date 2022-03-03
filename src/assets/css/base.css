@@ -5,28 +5,29 @@
 /*辅助类样式*/
 html,
 body {
-	margin: 0;
+  margin: 0;
+  font-size: 14px;
 }
 
 a {
-	text-decoration: none;
-	color: #666666;
+  text-decoration: none;
+  color: #666666;
 }
 
 .relative {
-	position: relative;
+  position: relative;
 }
 
 .am-block {
-	display: block;
+  display: block;
 }
 
 .am-img-responsive {
-	display: block;
-	max-width: 100%;
-	height: auto
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
 .am-circle {
-	border-radius: 50%
+  border-radius: 50%;
 }

@@ -45,10 +45,12 @@ export default {
       this.$store.commit("Menu/ToggleMenu");
     },
     loadUserInfo() {
-      this.$store.dispatch("User/LoadInfo", { id: sessionStorage.id });
+      this.$store.dispatch("User/LoadInfo", {
+        id: this.localStorage.getItem("id"),
+      });
     },
     handleLogout() {
-      sessionStorage.clear();
+      this.localStorage.clear();
       this.$router.replace("/login");
     },
   },

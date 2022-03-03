@@ -112,8 +112,8 @@ export default {
 .bg {
   width: 100vw;
   height: 100vh;
-  background: url(../../assets/img/login/login-bg.jpg);
-  background-size: cover;
+  // background: url(../../assets/img/login/login-bg.jpg);
+  // background-size: cover;
   position: relative;
 
   .form-box {
