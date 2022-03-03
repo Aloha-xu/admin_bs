@@ -4,7 +4,13 @@
       <div slot="header" class="clearfix">
         <span>编辑商品</span>
       </div>
-      <el-form ref="form" :model="form" :rules="rules" label-position="left" label-width="110px">
+      <el-form
+        ref="form"
+        :model="form"
+        :rules="rules"
+        label-position="left"
+        label-width="110px"
+      >
         <el-row>
           <el-form-item prop="cateId" label="商品分类">
             <el-select v-model="form.cateId" placeholder="请选择分类">
@@ -37,7 +43,9 @@
           <el-col :span="14">
             <el-input v-model.trim="form.name"></el-input>
           </el-col>
-          <el-col :span="24" class="tip">商品标题名称长度至少3个字符，最长200个汉字</el-col>
+          <el-col :span="24" class="tip"
+            >商品标题名称长度至少3个字符，最长200个汉字</el-col
+          >
         </el-form-item>
         <!-- <el-form-item prop="hotPoint" label="商品卖点">
           <el-col :span="14">
@@ -51,8 +59,12 @@
               <template slot="append">元</template>
             </el-input>
           </el-col>
-          <el-col :span="24" class="tip">价格必须是0-999999之间的数字，且不能高于市场价</el-col>
-          <el-col :span="24" class="tip">此价格为商品实际销售价格，如果商品存在规格，改价格显示最低价格</el-col>
+          <el-col :span="24" class="tip"
+            >价格必须是0-999999之间的数字，且不能高于市场价</el-col
+          >
+          <el-col :span="24" class="tip"
+            >此价格为商品实际销售价格，如果商品存在规格，改价格显示最低价格</el-col
+          >
         </el-form-item>
         <!-- <el-form-item prop="marketPrice" label="市场价">
           <el-col :span="4">
@@ -85,7 +97,9 @@
             </el-input>
           </el-col>
           <el-col :span="24" class="tip">库存必须是0-999999之间的整数</el-col>
-          <el-col :span="24" class="tip">若启动了库存配置，则系统自动计算商品的总数，此处无需卖家填写</el-col>
+          <el-col :span="24" class="tip"
+            >若启动了库存配置，则系统自动计算商品的总数，此处无需卖家填写</el-col
+          >
         </el-form-item>
         <!-- <el-form-item prop="articleNo" label="商品货号">
           <el-col :span="4">
@@ -95,14 +109,21 @@
           <el-col :span="24" class="tip">最多输入20个字符，只支持输入中文、字母、数字、_、/、-和小数点</el-col>
         </el-form-item>-->
         <el-form-item prop="img" label="商品主图">
-          <main-photo-upload :url.sync="form.img" action="/api/upload/goods"></main-photo-upload>
+          <main-photo-upload
+            :url.sync="form.img"
+            action="/api/upload/goods"
+          ></main-photo-upload>
           <el-col :span="24" class="tip">
             上传商品默认主图，如多规格时将默认图片或分规格上传规格主图，支持jpg、if、png格式上传或从图片空间选中，建议使用尺寸
             800*800像素以上，大小不超过1M的正方形图片，上传后的图片将自动保存在图片空间的默认分类中
           </el-col>
         </el-form-item>
         <el-form-item prop="slider" label="商品轮播图">
-          <slider-upload action="/api/upload/slider/" v-model="form.slider" :file-list="fileList"></slider-upload>
+          <slider-upload
+            action="/api/upload/slider/"
+            v-model="form.slider"
+            :file-list="fileList"
+          ></slider-upload>
           <el-col :span="24" class="tip">
             上传商品默认主图，如多规格时将默认图片或分规格上传规格主图，支持jpg、if、png格式上传或从图片空间选中，建议使用尺寸
             800*800像素以上，大小不超过1M的正方形图片，上传后的图片将自动保存在图片空间的默认分类中
@@ -174,7 +195,9 @@
               <template slot="append">元</template>
             </el-input>
           </el-col>
-          <el-col :span="24" class="tip">运费设为0，前台商品将显示免运费</el-col>
+          <el-col :span="24" class="tip"
+            >运费设为0，前台商品将显示免运费</el-col
+          >
         </el-form-item>
         <el-form-item>
           <el-button type="success" @click="handleEdit">提交</el-button>
@@ -191,10 +214,9 @@ import MainPhotoUpload from "@/components/MainPhotoUpload.vue";
 import SliderUpload from "@/components/SliderUpload";
 import { getToken } from "@/plugins/util.js";
 export default {
-  props: [""],
   components: {
     MainPhotoUpload,
-    SliderUpload
+    SliderUpload,
   },
   data() {
     return {
@@ -217,7 +239,7 @@ export default {
         slider: "",
         // brand: "",
         detail: "",
-        freight: 0
+        freight: 0,
         // province: "",
         // city: "",
         // county: "",
@@ -374,8 +396,8 @@ export default {
           {
             required: true,
             message: "请选择分类",
-            trigger: "blur"
-          }
+            trigger: "blur",
+          },
         ],
         // cate_2nd: [
         //   {
@@ -397,8 +419,8 @@ export default {
             type: "string",
             max: 140,
             message: "商品卖点不能超过140个汉字",
-            trigger: "blur"
-          }
+            trigger: "blur",
+          },
         ],
         name: [
           { required: true, message: "请输入商品的名称", trigger: "blur" },
@@ -407,16 +429,16 @@ export default {
             min: 3,
             max: 200,
             message: "商品标题名称长度至少3个字符，最长200个汉字",
-            trigger: "blur"
-          }
+            trigger: "blur",
+          },
         ],
         price: [
           { required: true, message: "请输入商品的价格", trigger: "blur" },
           {
             pattern: /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/,
             message: "价格必须是0-999999之间的数字，且不能高于市场价",
-            trigger: "blur"
-          }
+            trigger: "blur",
+          },
         ],
         // marketPrice: [
         //   { required: true, message: "请输入商品的市场价", trigger: "blur" },
@@ -439,15 +461,15 @@ export default {
             required: true,
             type: "integer",
             message: "请输入商品的库存数量",
-            trigger: "blur"
+            trigger: "blur",
           },
           {
             min: 0,
             max: 999999,
             type: "integer",
             message: "库存必须是0-999999之间的整数",
-            trigger: "blur"
-          }
+            trigger: "blur",
+          },
         ],
         // articleNo: [
         //   {
@@ -464,41 +486,41 @@ export default {
         //   },
         // ],
         img: [
-          { required: true, message: "请上传一张图片主图", trigger: "blur" }
+          { required: true, message: "请上传一张图片主图", trigger: "blur" },
         ],
         slider: [
           {
             required: true,
             message: "请上传至少一张轮播图照片",
-            trigger: "blur"
-          }
+            trigger: "blur",
+          },
         ],
         // brand: [
         //   { required: true, message: "请输入商品的品牌名称", trigger: "blur" },
         // ],
         detail: [
-          { required: true, message: "请填写商品详情", trigger: "blur" }
+          { required: true, message: "请填写商品详情", trigger: "blur" },
         ],
         freight: [
           {
             required: true,
             type: "number",
             message: "请填写商品的运费",
-            trigger: "blur"
+            trigger: "blur",
           },
           {
             min: 0,
             type: "number",
             message: "运费必须是0-999999之间的数字",
-            trigger: "blur"
-          }
-        ]
+            trigger: "blur",
+          },
+        ],
         // province: [{ required: true, message: "请选择省份", trigger: "blur" }],
         // city: [{ required: true, message: "请选择城市", trigger: "blur" }],
         // county: [{ required: true, message: "请选择区县", trigger: "blur" }],
         // town: [{ required: true, message: "请选择街道", trigger: "blur" }],
       },
-      cateIdBox: []
+      cateIdBox: [],
     };
   },
   // computed: {
@@ -538,10 +560,10 @@ export default {
     editor.config.uploadFileName = "file";
     // 配置header信息
     editor.config.uploadImgHeaders = {
-      Authorization: `Bearer ${getToken()}`
+      Authorization: `Bearer ${getToken()}`,
     };
     //同步HTML代码至data
-    editor.config.onchange = html => {
+    editor.config.onchange = (html) => {
       this.form.detail = html;
     };
     editor.create();
@@ -554,7 +576,7 @@ export default {
     // 轮播图
     let arr = data.slider.split(",");
     console.log(arr);
-    let list = arr.map(function(item, index) {
+    let list = arr.map(function (item, index) {
       let obj = {};
       obj.url = item;
       obj.name = index + ".jpg";
@@ -591,8 +613,8 @@ export default {
       if (status) {
         this.$message.success("更新商品成功！");
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

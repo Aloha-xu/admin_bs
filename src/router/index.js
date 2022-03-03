@@ -25,6 +25,8 @@ import GoodsEdit from "@/views/Goods/Edit";
 import AuthRole from "@/views/Auth/Role";
 import AuthMenu from "@/views/Auth/Menu";
 import RoleConfig from "@/views/Auth/Role-Config";
+//轮播图
+import BannerList from "@/views/Banner/List.vue";
 
 /**
  * 2. 定义路由
@@ -115,6 +117,19 @@ const routes = [
             props: true,
           },
         ],
+      },
+    ],
+  },
+  {
+    path: "/banner",
+    name: "Banner",
+    component: Layout,
+    // meta: { requiredAuth: true },
+    children: [
+      {
+        path: "list",
+        name: "BannerList",
+        component: BannerList,
       },
     ],
   },

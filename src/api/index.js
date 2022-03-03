@@ -7,6 +7,7 @@ import Order from './modules/Order';
 import Upload from './modules/Upload';
 import Menu from './modules/Menu';
 import Icon from './modules/Icon';
+import Banner from './modules/Banner';
 
 export {
 	User,
@@ -18,4 +19,5 @@ export {
 	Order,
 	Upload,
 	Icon,
+	Banner
 };
