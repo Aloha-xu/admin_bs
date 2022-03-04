@@ -101,17 +101,17 @@ export default {
     //删除图片
     async handleSliderBeforeRemove(file, fileList) {
       let src = file.response.src;
-      let { status } = await Upload.remove({ src });
-      if (status) {
-        let i = fileList.findIndex((item) => item.url == src);
-        let copy = [...fileList];
-        copy.splice(i, 1);
-        let data = this.convertFileList(copy);
-        this.$emit("input", data);
-        return true;
-      } else {
-        return false;
-      }
+      // let { status } = await Upload.remove({ src });
+      // if (status) {
+      let i = fileList.findIndex((item) => item.url == src);
+      let copy = [...fileList];
+      copy.splice(i, 1);
+      let data = this.convertFileList(copy);
+      this.$emit("input", data);
+      return true;
+      // } else {
+      //   return false;
+      // }
     },
     //转换数据格式
     convertFileList(fileList) {

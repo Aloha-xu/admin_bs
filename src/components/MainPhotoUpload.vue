@@ -68,13 +68,15 @@ export default {
     // 删除图片
     async handleRemove() {
       // 删除图片
-      let { status: statusMd } = await Upload.remove({ src: this.url });
-      let { status: statusLg } = await Upload.remove({ src: this.lgImg });
-      if (statusMd && statusLg) {
-        this.$message.success("删除成功!");
-        this.$emit("update:url", "");
-        this.$emit("update:lgImg", "");
-      }
+      // let { status: statusMd } = await Upload.remove({ src: this.url });
+      // let { status: statusLg } = await Upload.remove({ src: this.lgImg });
+      // if (statusMd && statusLg) {
+      //   this.$message.success("删除成功!");
+      //   this.$emit("update:url", "");
+      //   this.$emit("update:lgImg", "");
+      // }
+      this.$emit("update:url", "");
+      this.$emit("update:lgImg", "");
     },
     // 上传图片成功
     handleUploadSuccess(res, file) {
