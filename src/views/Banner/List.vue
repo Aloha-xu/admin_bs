@@ -2,7 +2,14 @@
   <div>
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>轮播图</span>
+        <span>轮播图管理</span>
+        <el-button
+          type="primary"
+          plain
+          @click="handleAddBanner"
+          style="float:right"
+          >添加</el-button
+        >
       </div>
       <!-- 表格 -->
       <el-table :data="tableData" style="width: 100%">
@@ -64,7 +71,7 @@
     </el-card>
 
     <el-dialog
-      title="更改轮播图信息"
+      :title="title"
       :visible.sync="ModalVisible"
       @closed="handleClosedDialog('formRef')"
     >
@@ -96,7 +103,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="ModalVisible = false">取 消</el-button>
+        <el-button @click="handleClosedDialog('formRef')">取 消</el-button>
         <el-button type="primary" @click="handleUpdateInfo">确 定</el-button>
       </div>
     </el-dialog>
@@ -109,6 +116,7 @@ import MainPhotoUpload from "@/components/MainPhotoUpload.vue";
 export default {
   data() {
     return {
+      title: "更改轮播图信息",
       ModalVisible: false,
       tableData: [],
       form: {
@@ -130,7 +138,12 @@ export default {
     this.loadBannersList();
   },
   methods: {
+    handleAddBanner() {
+      this.title = "添加轮播图信息";
+      this.ModalVisible = true;
+    },
     handleShowUpdateDialog(bannerId) {
+      this.title = "更改轮播图信息";
       this.ModalVisible = true;
       this.tableData.some((item, index) => {
         if (item.bannerId == bannerId) {
@@ -140,12 +153,19 @@ export default {
       });
     },
     handleClosedDialog(formName) {
+      this.ModalVisible = false;
       this.$refs[formName].resetFields();
     },
     async handleUpdateInfo() {
-      await Banner.update({
-        ...this.form,
-      });
+      //判断是添加还是修改
+      this.title == "添加轮播图信息" &&
+        (await Banner.add({
+          ...this.form,
+        }));
+      this.title == "更改轮播图信息" &&
+        (await Banner.update({
+          ...this.form,
+        }));
       this.ModalVisible = false;
       this.loadBannersList();
     },

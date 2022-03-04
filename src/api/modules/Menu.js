@@ -1,22 +1,19 @@
 import axios from "axios";
 // 加载下一级菜单
-const loadSub = (params) => axios.get("/api/menu/sub", { params });
+const loadSub = (data) => axios.post("/api/menu/sub", data);
 // 添加菜单
-const add = (formData) => axios.post("/api/menu", formData);
+const add = (data) => axios.post("/api/menu/add", data);
 // 更新菜单
-const update = (id, formData) => axios.post(`/api/menu/${id}`, formData);
+const update = (data) => axios.post(`/api/menu/update`, data);
 // 删除菜单
-const remove = (id, params) => axios.post(`/api/menu/${id}`, { params });
+const del = (data) => axios.post(`/api/menu/del`, data);
 // 获取侧边栏菜单
-const loadTree = (params) => axios.get("/api/menu/tree", { params });
-// 设置菜单icon
-const setIcon = (id, formData) => axios.post(`/api/menu/icon/${id}`, formData);
+const loadTree = (data) => axios.post("/api/menu/tree", data);
 
 export default {
   loadSub,
   add,
   update,
-  remove,
+  del,
   loadTree,
-  setIcon,
 };

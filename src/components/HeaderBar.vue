@@ -46,11 +46,12 @@ export default {
     },
     loadUserInfo() {
       this.$store.dispatch("User/LoadInfo", {
-        id: this.localStorage.getItem("id"),
+        //admin的id
+        id: localStorage.getItem("id"),
       });
     },
     handleLogout() {
-      this.localStorage.clear();
+      localStorage.clear();
       this.$router.replace("/login");
     },
   },

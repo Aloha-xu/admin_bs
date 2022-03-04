@@ -40,7 +40,9 @@ export default {
   },
   methods: {
     loadMenuTree() {
-      this.$store.dispatch("Menu/LoadMenu", { id: 1 });
+      //这里的角色id需要根据登录的角色变化而变化 现在测试先写死
+      // +localStorage.getItem("id")
+      this.$store.dispatch("Menu/LoadMenu", { roleId: 1 });
     },
   },
 };
