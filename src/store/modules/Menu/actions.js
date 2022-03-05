@@ -8,15 +8,6 @@ const LoadMenu = async ({ commit, state }, formData) => {
   }
   return { status, data };
 };
-//设置菜单图标
-const SetIcon = async ({ commit, state }, menuData) => {
-  let { status, msg } = await Menu.setIcon(menuData);
-  if (status) {
-    // 储存到state
-    commit("UpdateIcon", menuData);
-  }
-  return { status, msg };
-};
 //编辑菜单
 const EditMenu = async ({ commit, state }, menuData) => {
   let { status, msg } = await Menu.update(menuData);
@@ -48,7 +39,6 @@ const RemoveMenu = async ({ commit, state }, menuId) => {
 
 export default {
   LoadMenu,
-  SetIcon,
   EditMenu,
   CreateMenu,
   RemoveMenu,

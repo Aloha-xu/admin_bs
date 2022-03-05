@@ -80,6 +80,7 @@ export default {
     },
     // 上传图片成功
     handleUploadSuccess(res, file) {
+      console.log(res, file);
       let { status, mdImg, lgImg } = res;
       this.$message.success("上传成功!");
       // 触发外部绑定的事件

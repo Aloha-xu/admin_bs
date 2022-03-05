@@ -17,7 +17,7 @@
         :data="treeMenu"
         ref="tree"
         :default-expanded-keys="defaultExpandedKeys"
-        node-key="menuId"
+        node-key="id"
         :props="defaultProps"
         class="am-margin-top-lg"
       >
@@ -37,6 +37,7 @@
               type="text"
               icon="el-icon-circle-plus-outline"
               @click.stop="openAddModal(node, data)"
+              :disabled="data.pId > 1"
             >
               添加
             </el-button>
@@ -141,22 +142,15 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { Menu, Icon } from "@/api/index";
+// import { Menu, Icon } from "@/api/index";
 
 export default {
   name: "Menu",
   data() {
     return {
       defaultProps: { label: "name" },
-      // 选择图标
-      IconModalVisible: false,
-      icons: [],
       pageSize: 30,
       iconTotal: 0,
-      checkedIcon: {
-        icon_id: "",
-        icon: "",
-      },
       currentNode: "",
       //默认展开
       defaultExpandedKeys: [1],
@@ -169,8 +163,6 @@ export default {
         component: "",
         path: "",
         menuOrder: "",
-        icon: "",
-        icon_id: "",
       },
       // 添加Modal
       AddModalVisible: false,
@@ -180,8 +172,6 @@ export default {
         component: "",
         path: "",
         menuOrder: "",
-        icon: "",
-        icon_id: "",
       },
       rules: {
         name: [
@@ -209,60 +199,17 @@ export default {
     };
   },
   created() {
-    this.loadIcons(1);
+    // this.loadIcons(1);
     document.title = "菜单权限";
   },
   computed: {
     ...mapGetters("Menu", ["treeMenu"]),
   },
   methods: {
-    // 加载element图标
-    async loadIcons(pageIndex) {
-      let { status, icons, total } = await Icon.list({
-        pageSize: this.pageSize,
-        pageIndex,
-      });
-      if (status) {
-        icons.forEach((item) => {
-          // 添加选择状态--布尔值
-          item.checked = false;
-        });
-        this.icons = icons;
-        this.iconTotal = total;
-      }
-    },
-    // 分页器改变页码数
-    handlePageChange(pageIndex) {
-      this.loadIcons(pageIndex);
-    },
-    // 打开图标选择Modal
-    openIconModal(node, data) {
-      this.IconModalVisible = true;
-      // 转存node
-      this.currentNode = node;
-    },
-    // 选中图标
-    handleCheckIcon(data) {
-      this.icons.forEach((item) => {
-        // 切换选中状态
-        item.checked = item === data ? !data.checked : false;
-      });
-      // 存储/取消选中的iconName
-      this.checkedIcon.icon_id = data.checked ? data.id : "";
-      this.checkedIcon.icon = data.checked ? data.name : "";
-    },
-    // 更新图标
-    async handleUpdateIcon() {
-      let { id } = this.currentNode.data;
-      let { status, msg } = await this.$store.dispatch("Menu/SetIcon", {
-        id,
-        ...this.checkedIcon,
-      });
-      if (status) {
-        this.$message.success(msg);
-        this.IconModalVisible = false;
-      }
-    },
+    // // 分页器改变页码数
+    // handlePageChange(pageIndex) {
+    //   this.loadIcons(pageIndex);
+    // },
     // 删除节点
     openRemoveModal(node, data) {
       this.$confirm("此操作将永久删除该菜单, 是否继续?", { type: "warning" })
@@ -343,6 +290,7 @@ export default {
     setDefaultExpandedKeys() {
       // 获取树形组件实例
       let allNodes = this.$refs.tree.store._getAllNodes();
+      console.log(allNodes);
       let defaultExpandedNodes = [];
       allNodes.forEach((node) => {
         node.expanded && defaultExpandedNodes.push(node.data.menuId);
