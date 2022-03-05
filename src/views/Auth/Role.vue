@@ -144,7 +144,8 @@ export default {
         if (valid) {
           let { status, data } = await Role.add({ ...this.addForm });
           if (status) {
-            this.tableData.push({ ...data, ...this.addForm });
+            this.loadRole();
+            // this.tableData.push({ ...data, ...this.addForm });
             this.AddModalVisible = false;
             this.$message.success("添加成功!");
           }
@@ -161,11 +162,12 @@ export default {
     async handleUpdateRole() {
       this.$refs.editForm.validate(async (valid) => {
         if (valid) {
-          let { status, msg } = await Role.update(this.editForm.id, {
+          let { status, msg } = await Role.update({
             ...this.editForm,
           });
           if (status) {
-            this.$set(this.tableData, this.currentIndex, { ...this.editForm });
+            // this.$set(this.tableData, this.currentIndex, { ...this.editForm });
+            this.loadRole();
             this.EditModalVisible = false;
             this.$message.success("编辑成功!");
           }
@@ -174,11 +176,11 @@ export default {
     },
     // 确认删除
     openDeleteModal(id, index) {
-      this.$confirm("此操作将永久删除该角色及其关联账户, 是否继续？", {
+      this.$confirm("此操作将永久删除该角色及其关联账户的角色, 是否继续？", {
         type: "warning",
       })
         .then(async () => {
-          let { status } = await Role.remove(id);
+          let { status } = await Role.remove({ id: id });
           if (status) {
             this.tableData.splice(index, 1);
             this.$message.success("删除成功!");

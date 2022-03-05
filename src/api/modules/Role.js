@@ -2,18 +2,17 @@ import axios from "axios";
 //列表
 const list = (data) => axios.post("/api/role/list", data);
 //添加
-const add = (formData) => axios.post("/api/role", formData);
+const add = (data) => axios.post("/api/role/add", data);
 //删除
-const remove = (id, params) => axios.post(`/api/role/${id}`, { params });
+const remove = (data) => axios.post('/api/role/del', data);
 //更新
-const update = (id, formData) => axios.post(`/api/role/${id}`, formData);
+const update = (data) => axios.post('/api/role/update', data);
 //根据角色id获取菜单配置
-const loadConfig = (params) => axios.get("/api/role/config", { params });
+const loadConfig = (data) => axios.post("/api/role/getMenuByRoleId", data);
 //为指定角色添加菜单
-const createMenu = (formData) => axios.post("/api/role/menu", formData);
+const createMenu = (data) => axios.post("/api/role/addMenuByRole", data);
 //为指定角色删除菜单
-const removeMenu = (id, params) =>
-  axios.post(`/api/role/menu/${id}`, { params });
+const removeMenu = (data) => axios.post('/api/role/delMenuByRole', data);
 
 export default {
   list,

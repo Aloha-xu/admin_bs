@@ -1,18 +1,28 @@
 <template>
   <div>
-    <el-card class="am-margin-bottom-sm" v-for="(item,index) in menu" :key="item.id">
+    <el-card
+      class="am-margin-bottom-sm"
+      v-for="(item, index) in menu"
+      :key="item.menuId"
+    >
       <div slot="header" class="menu-header">
         <div class="menu-title am-text-sm">
           <i class="el-icon-collection-tag"></i>
           {{ item.name }}
         </div>
-        <el-switch @change="handleParent(item)" v-model="item.checked"></el-switch>
+        <el-switch
+          @change="handleParent(item)"
+          v-model="item.checked"
+        ></el-switch>
       </div>
       <el-row :gutter="40">
-        <el-col v-for="element in item.children" :key="element.id">
+        <el-col v-for="element in item.children" :key="element.menuId">
           <div class="menu-box am-padding-vertical-xs">
             <div class="am-text-xs">{{ element.name }}</div>
-            <el-switch @change="handleChild(element,item)" v-model="element.checked"></el-switch>
+            <el-switch
+              @change="handleChild(element, item)"
+              v-model="element.checked"
+            ></el-switch>
           </div>
         </el-col>
       </el-row>
@@ -25,6 +35,7 @@ import { Role } from "@/api/index";
 
 export default {
   name: "Role-Setting",
+  //角色Id
   props: ["id"],
   data() {
     return {
@@ -37,11 +48,12 @@ export default {
   },
   watch: {
     // 如果路由有变化，会再次执行该方法
-    '$route': 'loadRoleConfig'
+    $route: "loadRoleConfig",
   },
   methods: {
+    //加载角色拥有的权限列表
     async loadRoleConfig() {
-      let { status, data } = await Role.loadConfig({ id: this.id });
+      let { status, data } = await Role.loadConfig({ id: +this.id });
       if (status) {
         this.menu = data;
       }
@@ -50,19 +62,19 @@ export default {
      * 父级菜单switch
      * nodeData      父级菜单
      * */
-    async handleParent({ checked, children, id }) {
+    async handleParent({ checked, children, menuId }) {
       //修改父级菜单
       if (checked) {
-        let { status } = await Role.createMenu({ role_id: this.id, menu_id: id });
+        await Role.createMenu({ roleId: +this.id, menuId: menuId });
       } else {
-        let { status } = await Role.removeMenu(this.id, { menu_id: id });
+        await Role.removeMenu({ roleId: +this.id, menuId: menuId });
       }
       //所有子级跟随父级状态改变
       children.forEach(async (item) => {
         if (checked) {
-          let { status } = await Role.createMenu({ role_id: this.id, menu_id: item.id });
+          await Role.createMenu({ roleId: +this.id, menuId: item.menuId });
         } else {
-          let { status } = await Role.removeMenu(this.id, { menu_id: item.id });
+          await Role.removeMenu({ roleId: +this.id, menuId: item.menuId });
         }
         item.checked = checked;
       });
@@ -72,7 +84,7 @@ export default {
      * nodeData    子级data
      * parentData  父级data
      * */
-    async handleChild({ checked, id }, parentData) {
+    async handleChild({ checked, menuId }, parentData) {
       //检测子级菜单中是否有选中状态
       let num = parentData.children.reduce((total, item) => {
         if (item.checked) {
@@ -82,19 +94,25 @@ export default {
       }, 0);
       // 修改当前子级菜单的选中状态
       if (checked) {
-        let { status } = await Role.createMenu({ role_id: this.id, menu_id: id });
+        await Role.createMenu({ roleId: +this.id, menuId: menuId });
       } else {
-        let { status } = await Role.removeMenu(this.id, { menu_id: id });
+        await Role.removeMenu({ roleId: +this.id, menuId: menuId });
         // 点击的子菜单由true变为false,选中的子菜单总数为1时，避免重复发送父级菜单选中的ajax
         if (num == 1) return;
       }
       switch (num) {
         case 0:
-          await Role.removeMenu(this.id, { menu_id: parentData.id });
+          await Role.removeMenu({
+            roleId: +this.id,
+            menuId: parentData.menuId,
+          });
           parentData.checked = false;
           break;
         case 1:
-          await Role.createMenu({ role_id: this.id, menu_id: parentData.id });
+          await Role.createMenu({
+            roleId: +this.id,
+            menuId: parentData.menuId,
+          });
           parentData.checked = true;
           break;
         default:
@@ -102,7 +120,7 @@ export default {
       }
     },
   },
-}
+};
 </script>
 
 <style lang="less" scoped>
@@ -112,7 +130,7 @@ export default {
   align-items: center;
 
   .menu-title {
-    color: #409EFF;
+    color: #409eff;
   }
 }
 

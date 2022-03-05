@@ -23,8 +23,8 @@
         </el-form-item>
         <el-form-item label="性别" prop="sex">
           <el-radio-group v-model="form.sex">
-            <el-radio label="男">男</el-radio>
-            <el-radio label="女">女</el-radio>
+            <el-radio :label="0">男</el-radio>
+            <el-radio :label="1">女</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="手机" prop="tel">
@@ -34,11 +34,16 @@
           <single-upload
             default-image="http://localhost:3003/images/avatar/default.jpg"
             :data="{ type: 'avatar' }"
-            action="/api/upload/common/"
+            action="/api/upload/common"
             :url.sync="form.avatar"
           />
         </el-form-item>
-        <el-button type="primary" @click="updateInfo">修 改</el-button>
+        <el-button
+          type="primary"
+          @click="updateInfo"
+          style="float: right; margin-bottom: 100px"
+          >修 改</el-button
+        >
       </el-form>
     </el-card>
   </div>
@@ -57,12 +62,13 @@ export default {
       form: {
         username: "",
         fullname: "",
-        sex: "男",
+        sex: 0,
         tel: "",
         role: "",
         avatar: "",
       },
       rules: {
+        username: [{ required: true }],
         fullname: [
           {
             required: true,
