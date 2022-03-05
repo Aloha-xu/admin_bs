@@ -7,7 +7,7 @@
       <el-alert
         title="Tips"
         type="warning"
-        description="设置后台管理系统的左侧菜单，目前至多支持两层菜单，三层以上菜单将不会显示。"
+        description="设置后台管理系统的左侧菜单，目前至多支持两层菜单，三层以上菜单将不会显示与添加。"
         show-icon
         :closable="false"
       >

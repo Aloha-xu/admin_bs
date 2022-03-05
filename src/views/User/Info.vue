@@ -4,9 +4,19 @@
       <div slot="header" class="clearfix">
         <span>账户信息</span>
       </div>
-      <el-form ref="form" :model="form" :rules="rules" label-position="left" label-width="100px">
+      <el-form
+        ref="form"
+        :model="form"
+        :rules="rules"
+        label-position="left"
+        label-width="100px"
+      >
         <el-form-item label="账户" prop="username">
-          <el-input v-model="form.username" disabled auto-complete="off"></el-input>
+          <el-input
+            v-model="form.username"
+            disabled
+            auto-complete="off"
+          ></el-input>
         </el-form-item>
         <el-form-item label="姓名" prop="fullname">
           <el-input v-model="form.fullname" auto-complete="off"></el-input>
@@ -21,8 +31,12 @@
           <el-input v-model.number="form.tel" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="头像" prop="avatar">
-          <single-upload default-image="http://localhost:3003/images/avatar/default.jpg" :data="{type:'avatar'}"
-                         action="/api/upload/common/" :url.sync="form.avatar"/>
+          <single-upload
+            default-image="http://localhost:3003/images/avatar/default.jpg"
+            :data="{ type: 'avatar' }"
+            action="/api/upload/common/"
+            :url.sync="form.avatar"
+          />
         </el-form-item>
         <el-button type="primary" @click="updateInfo">修 改</el-button>
       </el-form>
@@ -31,7 +45,7 @@
 </template>
 
 <script>
-import SingleUpload from '@/components/SingleUpload.vue';
+import SingleUpload from "@/components/SingleUpload.vue";
 
 export default {
   components: {
@@ -50,20 +64,31 @@ export default {
       },
       rules: {
         fullname: [
-          { required: true, type: 'string', message: '请输入真实姓名！', trigger: 'blur' },
-          { pattern: /^[\u4E00-\u9FA5A-Za-z\s]+(·[\u4E00-\u9FA5A-Za-z]+)*$/, message: '请输入有效的姓名', trigger: 'blur' }
+          {
+            required: true,
+            type: "string",
+            message: "请输入真实姓名！",
+            trigger: "blur",
+          },
+          {
+            pattern: /^[\u4E00-\u9FA5A-Za-z\s]+(·[\u4E00-\u9FA5A-Za-z]+)*$/,
+            message: "请输入有效的姓名",
+            trigger: "blur",
+          },
         ],
-        sex: [
-          { required: true, message: '请选择性别！', trigger: 'blur' },
-        ],
+        sex: [{ required: true, message: "请选择性别！", trigger: "blur" }],
         tel: [
-          { required: true, message: '请输入手机号码！', trigger: 'blur' },
-          { pattern: /^1(3|4|5|6|7|8|9)\d{9}$/, message: '请输入有效的手机号码', trigger: 'blur' }
+          { required: true, message: "请输入手机号码！", trigger: "blur" },
+          {
+            pattern: /^1(3|4|5|6|7|8|9)\d{9}$/,
+            message: "请输入有效的手机号码",
+            trigger: "blur",
+          },
         ],
         avatar: [
-          { required: true, message: '请上传一张头像！', trigger: 'click' },
+          { required: true, message: "请上传一张头像！", trigger: "click" },
         ],
-      }
+      },
     };
   },
   created() {
@@ -87,20 +112,21 @@ export default {
     updateInfo() {
       this.$refs.form.validate((valid) => {
         if (!valid) {
-          return false
+          return false;
         }
-        ;
         let { role } = this.form;
-        this.$store.dispatch('User/Update', { ...this.form }).then(({ status, msg }) => {
-          if (status) {
-            sessionStorage.role = role;
-            this.$message.success(msg);
-          }
-        })
+        this.$store
+          .dispatch("User/Update", { ...this.form })
+          .then(({ status, msg }) => {
+            if (status) {
+              localStorage.setItem("role", role);
+              this.$message.success(msg);
+            }
+          });
       });
     },
-  }
-}
+  },
+};
 </script>
 
 <style lang="less" scoped>

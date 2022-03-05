@@ -47,7 +47,7 @@ export default {
     loadUserInfo() {
       this.$store.dispatch("User/LoadInfo", {
         //admin的id
-        id: localStorage.getItem("id"),
+        id: +localStorage.getItem("id"),
       });
     },
     handleLogout() {

@@ -6,34 +6,30 @@
         <span>用户列表</span>
       </div>
       <el-table :data="tableData" style="width: 100%">
-        <el-table-column prop="id" label="#"> </el-table-column>
-        <el-table-column sortable label="头像">
+        <el-table-column prop="adminId" label="#"> </el-table-column>
+        <el-table-column label="头像">
           <template slot-scope="scope">
             <el-avatar :src="scope.row.avatar" :size="50"></el-avatar>
           </template>
         </el-table-column>
-        <el-table-column prop="username" sortable label="账号">
+        <el-table-column prop="username" label="账号"> </el-table-column>
+        <el-table-column prop="fullname" label="姓名"> </el-table-column>
+        <el-table-column prop="sex" label="性别">
+          <template slot-scope="scope">
+            <span>{{ scope.row.sex == 0 ? "男" : "女" }}</span>
+          </template>
         </el-table-column>
-        <el-table-column prop="fullname" sortable label="姓名">
-        </el-table-column>
-        <el-table-column prop="sex" sortable label="性别"> </el-table-column>
-        <el-table-column prop="tel" sortable label="手机"> </el-table-column>
-        <el-table-column prop="role_name" sortable label="角色">
+        <el-table-column prop="tel" label="手机"> </el-table-column>
+        <el-table-column prop="roleName" label="角色">
           <template slot-scope="scope">
             <el-tag :type="scope.row.role === 1 ? 'danger' : ''">{{
-              scope.row.role_name
+              scope.row.roleName
             }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column
-          prop="login_time"
-          width="160"
-          sortable
-          label="上次登录"
-        >
+        <el-table-column prop="loginTime" width="160" label="上次登录">
         </el-table-column>
-        <el-table-column prop="login_count" sortable label="登录次数">
-        </el-table-column>
+        <el-table-column prop="loginCount" label="登录次数"> </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
@@ -44,8 +40,8 @@
               type="primary"
             ></el-button>
             <el-button
-              @click="showDeleteModal(scope.row.id, scope.$index)"
-              :disabled="scope.row.id == 1"
+              @click="showDeleteModal(scope.row.adminId, scope.$index)"
+              :disabled="scope.row.adminId == 1"
               icon="el-icon-delete"
               plain
               size="small"
@@ -74,8 +70,8 @@
         </el-form-item>
         <el-form-item label="性别" prop="sex">
           <el-radio-group v-model="form.sex">
-            <el-radio label="男">男</el-radio>
-            <el-radio label="女">女</el-radio>
+            <el-radio :label="0">男</el-radio>
+            <el-radio :label="1">女</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="手机" prop="tel">
@@ -99,7 +95,7 @@
           <single-upload
             default-image="http://localhost:3003/images/avatar/default.jpg"
             :data="{ type: 'avatar' }"
-            action="/api/upload/common/"
+            action="/api/upload/common"
             :url.sync="form.avatar"
           />
         </el-form-item>
@@ -128,9 +124,9 @@ export default {
       roles: [],
       editModalVisible: false,
       form: {
-        id: "",
+        adminId: null,
         fullname: "",
-        sex: "男",
+        sex: 0,
         tel: "",
         role: "",
         avatar: "",
@@ -174,12 +170,14 @@ export default {
     document.title = "用户列表";
   },
   methods: {
+    //加载列表
     async loadList() {
       let { status, data } = await Admin.list();
       if (status) {
         this.tableData = data;
       }
     },
+    //加载角色
     async loadRole() {
       let { status, data } = await Role.list();
       if (status) {
@@ -207,7 +205,8 @@ export default {
         if (status) {
           this.editModalVisible = false;
           this.$message.success(msg);
-          this.$set(this.tableData, this.currentIndex, { ...this.form });
+          this.loadList();
+          // this.$set(this.tableData, this.currentIndex, { ...this.form });
         }
       });
     },
@@ -215,7 +214,7 @@ export default {
     showDeleteModal(id, index) {
       this.$confirm("此操作将永久删除该账户, 是否继续?", { type: "warning" })
         .then(async () => {
-          let { status, msg } = await Admin.remove(id);
+          let { status, msg } = await Admin.remove({ id: id });
           if (status) {
             this.$message.success("删除成功！");
             this.tableData.splice(index, 1);

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const remove = (params) => axios.post("/api/upload", { params });
+const remove = (data) => axios.post("/api/upload", data);
 
 export default {
   remove,

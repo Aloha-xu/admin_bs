@@ -1,6 +1,6 @@
 import axios from "axios";
 //列表
-const list = (params) => axios.get("/api/role/list", { params });
+const list = (data) => axios.post("/api/role/list", data);
 //添加
 const add = (formData) => axios.post("/api/role", formData);
 //删除

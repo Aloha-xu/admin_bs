@@ -20,7 +20,7 @@
 <script>
 // 支持双向数据绑定，采用:url.sync
 // 支持$emit事件success,处理复杂上传成功回调函数
-import { Upload } from "@/api/index";
+// import { Upload } from "@/api/index";
 
 import { getToken } from "@/plugins/util.js";
 
@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       headers: {
-        Authorization: `Bearer ${getToken}`,
+        Authorization: `Bearer ${getToken()}`,
       },
     };
   },
@@ -87,12 +87,12 @@ export default {
     // 删除现有图片
     async handleRemove() {
       // 如果不是默认头像，物理删除图片
-      if (this.url != this.defaultImage) {
-        let { status } = await Upload.remove({ src: this.url });
-        if (status) {
-          this.$message.success("删除成功!");
-        }
-      }
+      // if (this.url != this.defaultImage) {
+      //   let { status } = await Upload.remove({ src: this.url });
+      //   if (status) {
+      //     this.$message.success("删除成功!");
+      //   }
+      // }
       // 如果是默认头像，仅移除，不做物理删除
       this.$emit("update:url", "");
     },
