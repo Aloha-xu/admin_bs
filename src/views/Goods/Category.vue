@@ -137,14 +137,12 @@ export default {
       editModalVisible: false,
       editForm: {
         name: "",
-        pId: "",
-        // img:''
+        cateId: "",
       },
       addModalVisible: false,
       addForm: {
         name: "",
         pId: "",
-        // img:''
       },
       rules: {
         name: [
@@ -165,7 +163,6 @@ export default {
     async loadNode(node, resolve) {
       //这个level不是data里面的 不是后端返回的
       // 根节点level==0
-      console.log(node);
       if (node.level === 0) {
         let { data } = await Category.load({ pId: 0 });
         return resolve(data);
@@ -274,7 +271,7 @@ export default {
     // 关闭编辑dialog
     async handleCloseDialog() {
       // let isValid = await this.checkImage();
-      this.editModalVisible = !isValid;
+      this.editModalVisible = !this.editModalVisible;
     },
     // 关闭dialog动画结束之后，清除之前的验证提示
     handleClosedDialog(formName) {
