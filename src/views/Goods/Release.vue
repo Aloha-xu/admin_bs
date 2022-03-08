@@ -25,10 +25,14 @@
         </el-row>
         <el-form-item prop="name" label="商品名称">
           <el-col :span="14">
-            <el-input v-model.trim="form.name"></el-input>
+            <el-input
+              v-model.trim="form.name"
+              maxlength="100"
+              show-word-limit
+            ></el-input>
           </el-col>
           <el-col :span="24" class="tip"
-            >商品标题名称长度至少3个字符，最长200个汉字</el-col
+            >商品标题名称长度至少3个字符，最长100个汉字</el-col
           >
         </el-form-item>
         <el-form-item prop="price" label="商品价格">
@@ -46,17 +50,13 @@
               <template slot="append">件</template>
             </el-input>
           </el-col>
-          <el-col :span="24" class="tip">库存必须是0-999999之间的整数</el-col>
-          <el-col :span="24" class="tip"
-            >若启动了库存配置，则系统自动计算商品的总数，此处无需卖家填写</el-col
-          >
         </el-form-item>
         <el-form-item prop="img" label="商品主图">
           <main-photo-upload :url.sync="form.img" action="/api/upload/goods">
           </main-photo-upload>
           <el-col :span="24" class="tip">
             上传商品默认主图，如多规格时将默认图片或分规格上传规格主图，支持jpg、if、png格式上传或从图片空间选中，建议使用尺寸
-            800*800像素以上，大小不超过1M的正方形图片，上传后的图片将自动保存在图片空间的默认分类中
+            800*800像素以上，大小不超过2M的图片，上传后的图片将自动保存在图片空间的默认分类中
           </el-col>
         </el-form-item>
         <el-form-item prop="slider" label="商品轮播图">
@@ -66,7 +66,7 @@
           ></slider-upload>
           <el-col :span="24" class="tip">
             上传商品默认主图，如多规格时将默认图片或分规格上传规格主图，支持jpg、if、png格式上传或从图片空间选中，建议使用尺寸
-            800*800像素以上，大小不超过1M的正方形图片，上传后的图片将自动保存在图片空间的默认分类中
+            800*800像素以上，大小不超过2M的图片，上传后的图片将自动保存在图片空间的默认分类中
           </el-col>
         </el-form-item>
         <div class="section-title">商品详情描述</div>
@@ -130,7 +130,7 @@ export default {
             type: "string",
             min: 3,
             max: 200,
-            message: "商品标题名称长度至少3个字符，最长200个汉字",
+            message: "商品标题名称长度至少3个字符，最长100个汉字",
             trigger: "blur",
           },
         ],

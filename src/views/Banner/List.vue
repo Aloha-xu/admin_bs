@@ -89,7 +89,7 @@
           ></main-photo-upload>
           <el-col :span="24" class="tip">
             上传商品默认主图，如多规格时将默认图片或分规格上传规格主图，支持jpg、if、png格式上传或从图片空间选中，建议使用尺寸
-            800*800像素以上，大小不超过1M的正方形图片，上传后的图片将自动保存在图片空间的默认分类中
+            800*800像素以上，大小不超过2M的图片，上传后的图片将自动保存在图片空间的默认分类中
           </el-col>
         </el-form-item>
         <el-form-item label="状态">
@@ -121,7 +121,7 @@ export default {
       tableData: [],
       form: {
         bannerId: "",
-        state: null,
+        state: 1,
         url: "",
       },
       rules: {

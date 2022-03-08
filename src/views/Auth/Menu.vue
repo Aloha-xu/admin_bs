@@ -12,6 +12,7 @@
         :closable="false"
       >
       </el-alert>
+
       <!-- 树形组件 -->
       <el-tree
         :data="treeMenu"
@@ -55,6 +56,7 @@
           </div>
         </div>
       </el-tree>
+
       <!-- 编辑Modal -->
       <el-dialog
         title="编辑节点"
@@ -69,23 +71,23 @@
           :label-position="'left'"
         >
           <el-form-item label="菜单名称" prop="name">
-            <el-input v-model="editForm.name"></el-input>
-          </el-form-item>
-          <el-form-item label="组件名称">
             <el-input
-              v-model="editForm.component"
-              placeholder="指定此菜单对应的组件名称"
+              v-model="editForm.name"
+              maxlength="10"
+              show-word-limit
             ></el-input>
           </el-form-item>
-          <el-form-item label="链接地址">
+          <el-form-item label="链接地址" prop="path">
             <el-input
               v-model="editForm.path"
               placeholder="指定此菜单的链接地址，选填"
+              maxlength="30"
+              show-word-limit
             ></el-input>
           </el-form-item>
           <el-form-item label="显示顺序" prop="menuOrder">
             <el-input
-              v-model="editForm.menuOrder"
+              v-model.number="editForm.menuOrder"
               placeholder="显示顺序按照数字从小到大，如2001"
             ></el-input>
           </el-form-item>
@@ -110,23 +112,23 @@
           :label-position="'left'"
         >
           <el-form-item label="菜单名称" prop="name">
-            <el-input v-model="addForm.name"></el-input>
-          </el-form-item>
-          <el-form-item label="组件名称">
             <el-input
-              v-model="addForm.component"
-              placeholder="指定此菜单对应的组件名称"
+              v-model="addForm.name"
+              maxlength="10"
+              show-word-limit
             ></el-input>
           </el-form-item>
-          <el-form-item label="链接地址">
+          <el-form-item label="链接地址" prop="path">
             <el-input
               v-model="addForm.path"
               placeholder="指定此菜单的链接地址，选填"
+              maxlength="30"
+              show-word-limit
             ></el-input>
           </el-form-item>
           <el-form-item label="显示顺序" prop="menuOrder">
             <el-input
-              v-model="addForm.menuOrder"
+              v-model.number="addForm.menuOrder"
               placeholder="显示顺序按照数字从小到大，如2001"
             ></el-input>
           </el-form-item>
@@ -142,7 +144,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-// import { Menu, Icon } from "@/api/index";
 
 export default {
   name: "Menu",
@@ -160,18 +161,16 @@ export default {
         menuId: "",
         name: "",
         pId: "",
-        component: "",
         path: "",
-        menuOrder: "",
+        menuOrder: null,
       },
       // 添加Modal
       AddModalVisible: false,
       addForm: {
         name: "",
         pId: "",
-        component: "",
         path: "",
-        menuOrder: "",
+        menuOrder: null,
       },
       rules: {
         name: [
@@ -185,7 +184,7 @@ export default {
         menuOrder: [
           {
             required: true,
-            type: "string",
+            type: "integer",
             message: "请填写显示顺序！",
             trigger: "blur",
           },
@@ -195,21 +194,23 @@ export default {
             trigger: "blur",
           },
         ],
+        path: [
+          {
+            pattern: /[u4E00-u9FA5]/,
+            message: "不能输入汉字！",
+            trigger: "blur",
+          },
+        ],
       },
     };
   },
   created() {
-    // this.loadIcons(1);
     document.title = "菜单权限";
   },
   computed: {
     ...mapGetters("Menu", ["treeMenu"]),
   },
   methods: {
-    // // 分页器改变页码数
-    // handlePageChange(pageIndex) {
-    //   this.loadIcons(pageIndex);
-    // },
     // 删除节点
     openRemoveModal(node, data) {
       this.$confirm("此操作将永久删除该菜单, 是否继续?", { type: "warning" })
@@ -253,6 +254,10 @@ export default {
           }
           this.$message.success(msg);
           this.AddModalVisible = false;
+          //刷新
+          this.$store.dispatch("Menu/LoadMenu", {
+            roleId: +localStorage.getItem("roleId"),
+          });
         }
       });
     },
@@ -279,6 +284,10 @@ export default {
           }
           this.$message.success(msg);
           this.EditModalVisible = false;
+          //刷新
+          this.$store.dispatch("Menu/LoadMenu", {
+            roleId: +localStorage.getItem("roleId"),
+          });
         }
       });
     },

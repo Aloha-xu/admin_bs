@@ -4,6 +4,15 @@
       <div slot="header" class="clearfix">
         <span>商品分类</span>
       </div>
+      <el-alert
+        title="Tips"
+        type="warning"
+        description="目前至多支持两层菜单，三层以上菜单将不会显示与添加。"
+        show-icon
+        :closable="false"
+      >
+      </el-alert>
+      <br />
       <!-- 树形组件 -->
       <el-tree
         ref="tree"

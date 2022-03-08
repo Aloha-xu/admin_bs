@@ -91,8 +91,10 @@ export default {
             Date.parse(new Date()) + 7200000
           )}`;
           // localStorage.setItem("token", data.token);
+          //这的id是adminId
           localStorage.setItem("id", data.id);
-
+          //roleId角色Id
+          localStorage.setItem("roleId", data.roleId);
           // sessionStorage.token = data.token;
           // sessionStorage.id = data.id;
           // 跳转页面
