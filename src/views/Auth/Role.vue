@@ -71,7 +71,11 @@
         label-width="80px"
       >
         <el-form-item label="名称" prop="name">
-          <el-input v-model="addForm.name"></el-input>
+          <el-input
+            v-model="addForm.name"
+            maxlength="5"
+            show-word-limit
+          ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -93,7 +97,11 @@
         label-width="80px"
       >
         <el-form-item label="名称" prop="name">
-          <el-input v-model="editForm.name"></el-input>
+          <el-input
+            v-model="editForm.name"
+            maxlength="5"
+            show-word-limit
+          ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

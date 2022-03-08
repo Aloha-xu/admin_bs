@@ -6,7 +6,7 @@
         <span>用户列表</span>
       </div>
       <el-table :data="tableData" style="width: 100%">
-        <el-table-column prop="adminId" label="#"> </el-table-column>
+        <el-table-column prop="adminId" label="#" width="80"> </el-table-column>
         <el-table-column label="头像">
           <template slot-scope="scope">
             <el-avatar :src="scope.row.avatar" :size="50"></el-avatar>

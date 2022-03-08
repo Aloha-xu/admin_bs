@@ -148,6 +148,12 @@ import { mapGetters } from "vuex";
 export default {
   name: "Menu",
   data() {
+    var validate = (rule, value, callback) => {
+      if (/[\u4E00-\u9FA5]/g.test(value)) {
+        callback(new Error("不能输入汉字"));
+      }
+      callback();
+    };
     return {
       defaultProps: { label: "name" },
       pageSize: 30,
@@ -194,13 +200,7 @@ export default {
             trigger: "blur",
           },
         ],
-        path: [
-          {
-            pattern: /[u4E00-u9FA5]/,
-            message: "不能输入汉字！",
-            trigger: "blur",
-          },
-        ],
+        path: [{ validator: validate, trigger: "blur" }],
       },
     };
   },
