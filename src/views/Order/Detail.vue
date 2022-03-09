@@ -9,108 +9,124 @@
     <!-- 订单地址信息 -->
     <!-- 订单备注 -->
 
-    <el-descriptions title="订单详细">
-      <el-descriptions-item label="订单编号">{{
-        orderId && orderId
-      }}</el-descriptions-item>
-      <el-descriptions-item label="订单状态">{{
-        orderInfo.status && orderInfo.status
-      }}</el-descriptions-item>
-      <el-descriptions-item label="创建时间">{{
-        orderInfo.createdTime && orderInfo.createdTime
-      }}</el-descriptions-item>
-    </el-descriptions>
-    <!-- table 商品信息 -->
-    <el-table :data="orderGoods">
-      <el-table-column label="商品" width="500">
-        <template slot-scope="scope">
-          <div class="goods">
-            <div class="photo">
-              <img :src="scope.row.img" />
+    <el-card shadow="always">
+      <el-descriptions title="订单详细" style="margin-bottom:20px">
+        <el-descriptions-item label="订单编号">
+          {{ orderId && orderId }}
+        </el-descriptions-item>
+        <el-descriptions-item label="订单状态">
+          {{ orderInfo.status && orderInfo.status }}
+        </el-descriptions-item>
+        <el-descriptions-item label="创建时间">
+          {{ orderInfo.createTime && orderInfo.createTime }}
+        </el-descriptions-item>
+      </el-descriptions>
+      <!-- table 商品信息 -->
+      <el-table :data="orderGoods">
+        <el-table-column label="商品" width="500">
+          <template slot-scope="scope">
+            <div class="goods">
+              <div class="photo">
+                <img :src="scope.row.img" />
+              </div>
+              <div class="name">
+                <span>{{ scope.row.name }}</span>
+                <br />
+              </div>
             </div>
-            <div class="name">
-              <span>{{ scope.row.name }}</span>
-              <br />
-            </div>
-          </div>
-        </template>
-      </el-table-column>
-      <el-table-column prop="price" label="单价"></el-table-column>
-      <el-table-column prop="goodsNumber" label="数量"></el-table-column>
-    </el-table>
-    <!-- 地址信息 -->
-    <el-descriptions
-      class="margin-top"
-      title="地址信息"
-      :column="2"
-      border
-      size="large"
-    >
-      <el-descriptions-item :labelStyle="{ width: '150px' }">
-        <template slot="label">
-          <i class="el-icon-user"></i>
-          用户名
-        </template>
-        {{ addressInfo.name }}
-      </el-descriptions-item>
-      <el-descriptions-item :labelStyle="{ width: '150px' }">
-        <template slot="label">
-          <i class="el-icon-mobile-phone"></i>
-          手机号
-        </template>
-        {{ addressInfo.tel }}
-      </el-descriptions-item>
-      <el-descriptions-item>
-        <template slot="label">
-          <i class="el-icon-office-building"></i>
-          邮寄地址
-        </template>
-        {{
-          addressInfo.province +
-            addressInfo.city +
-            addressInfo.county +
-            addressInfo.address
-        }}
-      </el-descriptions-item>
-    </el-descriptions>
+          </template>
+        </el-table-column>
+        <el-table-column prop="price" label="单价"></el-table-column>
+        <el-table-column prop="goodsNumber" label="数量"></el-table-column>
+      </el-table>
+      <br />
+      <!-- 地址信息 -->
+      <el-descriptions
+        class="margin-top"
+        title="地址信息"
+        :column="2"
+        border
+        size="large"
+        style="margin-top:20px"
+      >
+        <el-descriptions-item :labelStyle="{ width: '150px' }">
+          <template slot="label">
+            <i class="el-icon-user"></i>
+            用户名
+          </template>
+          {{ addressInfo.name }}
+        </el-descriptions-item>
+        <el-descriptions-item :labelStyle="{ width: '150px' }">
+          <template slot="label">
+            <i class="el-icon-mobile-phone"></i>
+            手机号
+          </template>
+          {{ addressInfo.tel }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">
+            <i class="el-icon-office-building"></i>
+            邮寄地址
+          </template>
+          {{
+            addressInfo.province +
+              addressInfo.city +
+              addressInfo.county +
+              addressInfo.address
+          }}
+        </el-descriptions-item>
+      </el-descriptions>
+      <br />
+      <h3>快递信息</h3>
 
-    <el-form ref="form" :model="form" label-width="80px">
-      <el-form-item label="快递公司" props="shipName">
-        <el-input
-          v-model.trim="form.shipName"
-          :disabled="orderInfo.code == 1 ? false : true"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="快递单号" props="shipNumber">
-        <el-input
-          v-model.trim="form.shipNumber"
-          :disabled="orderInfo.code == 1 ? false : true"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="邮 费" props="freightPrice">
-        <el-input
-          v-model.number="form.freightPrice"
-          :disabled="orderInfo.code == 0 ? false : true"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="备 注" props="note">
-        <el-input
-          v-model.trim="form.note"
-          type="textarea"
-          placeholder="请输入内容"
-          maxlength="200"
-          show-word-limit
-        ></el-input>
-      </el-form-item>
-    </el-form>
+      <el-form
+        ref="form"
+        :model="form"
+        label-width="80px"
+        size="medium"
+        style="margin-top:20px"
+      >
+        <el-form-item label="快递公司" props="shipName">
+          <el-input
+            v-model.trim="form.shipName"
+            :disabled="orderInfo.code == 1 ? false : true"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="快递单号" props="shipNumber">
+          <el-input
+            v-model.trim="form.shipNumber"
+            :disabled="orderInfo.code == 1 ? false : true"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="邮 费" props="freightPrice">
+          <el-input
+            v-model.number="form.freightPrice"
+            :disabled="orderInfo.code == 0 ? false : true"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="备 注" props="note">
+          <el-input
+            v-model.trim="form.note"
+            type="textarea"
+            placeholder="请输入内容"
+            maxlength="200"
+            show-word-limit
+          ></el-input>
+        </el-form-item>
+      </el-form>
 
-    <button @click="handleUpdateOrder">修改</button>
+      <el-button
+        type="primary"
+        @click="handleUpdateOrder"
+        style="float:right ; margin-bottom:20px"
+        >修 改</el-button
+      >
+    </el-card>
   </div>
 </template>
 
 <script>
 import { Order } from "@/api/index";
-import { getYMDHMS } from "@/plugins/util.js";
 export default {
   name: "OrderDetail",
   data() {
@@ -139,9 +155,6 @@ export default {
       this.orderGoods = orderallinfo.data.orderGoods;
       this.addressInfo = orderallinfo.data.addressInfo;
       this.orderInfo = orderallinfo.data.orderInfo;
-      this.createdTime = getYMDHMS(
-        +orderallinfo.data.orderInfo.createTime * 1000
-      );
       let {
         shipName,
         shipNumber,
@@ -183,5 +196,12 @@ export default {
     width: 80px;
     display: block;
   }
+}
+
+::v-deep
+  .el-descriptions__body
+  .el-descriptions__table
+  .el-descriptions-item__cell {
+  font-size: 16px;
 }
 </style>

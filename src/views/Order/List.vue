@@ -165,7 +165,7 @@
 </template>
 <script>
 import { Order } from "@/api/index";
-import { getYMDHMS } from "@/plugins/util.js";
+// import { getYMDHMS } from "@/plugins/util.js";
 
 export default {
   data() {
@@ -234,9 +234,9 @@ export default {
         pageIndex: 1,
       });
       if (status) {
-        data.forEach(function(item) {
-          item.createTime = getYMDHMS(+item.createTime * 1000);
-        });
+        // data.forEach(function(item) {
+        //   item.createTime = getYMDHMS(+item.createTime * 1000);
+        // });
         this.tableData = data;
       }
     },

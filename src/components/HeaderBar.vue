@@ -10,9 +10,9 @@
     <el-menu
       mode="horizontal"
       router
-      background-color="#31404e"
+      background-color="#566676"
       text-color="#fff"
-      active-text-color="#ffd04b"
+      active-text-color="#566676"
     >
       <el-submenu index="1">
         <template slot="title">

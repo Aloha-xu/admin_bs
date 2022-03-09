@@ -29,10 +29,15 @@
         </el-table-column>
         <el-table-column label="发布时间" width="200">
           <template slot-scope="scope">
-            {{ getymdhms(scope.row.createTime) }}
+            {{ scope.row.createTime }}
           </template>
         </el-table-column>
-        <el-table-column label="状态" width="200">
+        <el-table-column label="修改时间" width="200">
+          <template slot-scope="scope">
+            {{ scope.row.updateTime }}
+          </template>
+        </el-table-column>
+        <el-table-column label="状态" width="300">
           <template slot-scope="scope">
             <span :style="{ color: scope.row.state ? '#75a53d' : '#F56C6C' }">
               {{ scope.row.state ? "已上架" : "已下架" }}
@@ -111,7 +116,7 @@
 </template>
 <script>
 import { Banner } from "@/api/index";
-import { getYMDHMS } from "@/plugins/util.js";
+// import { getYMDHMS } from "@/plugins/util.js";
 import MainPhotoUpload from "@/components/MainPhotoUpload.vue";
 export default {
   data() {
@@ -172,9 +177,9 @@ export default {
     indexMethod(index) {
       return index + 1;
     },
-    getymdhms(t) {
-      return getYMDHMS(+t * 1000);
-    },
+    // getymdhms(t) {
+    //   return getYMDHMS(+t * 1000);
+    // },
     async loadBannersList() {
       let { status, data, total } = await Banner.list({});
       if (status) {

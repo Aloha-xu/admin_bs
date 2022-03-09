@@ -2,10 +2,10 @@
   <el-menu
     :collapse="isCollapse"
     :default-openeds="['01']"
-    background-color="#334e66"
+    background-color="#fff"
     router
-    text-color="#fff"
-    active-text-color="#ffd04b"
+    text-color="rgb(84 84 84)"
+    active-text-color="rgb(0 19 250)"
   >
     <template v-for="(item, index) in sideMenu">
       <el-menu-item v-if="item.path" :index="item.path">
