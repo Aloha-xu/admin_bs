@@ -1,7 +1,6 @@
 <template>
   <el-menu
     :collapse="isCollapse"
-    :default-openeds="['01']"
     background-color="#fff"
     router
     text-color="rgb(84 84 84)"
@@ -42,7 +41,9 @@ export default {
     loadMenuTree() {
       //这里的角色id需要根据登录的角色变化而变化 现在测试先写死
       // +localStorage.getItem("id")
-      this.$store.dispatch("Menu/LoadMenu", { roleId: 1 });
+      this.$store.dispatch("Menu/LoadMenu", {
+        roleId: +localStorage.getItem("roleId"),
+      });
     },
   },
 };

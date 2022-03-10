@@ -124,7 +124,7 @@ const routes = [
     path: "/banner",
     name: "Banner",
     component: Layout,
-    // meta: { requiredAuth: true },
+    meta: { requiredAuth: true },
     children: [
       {
         path: "list",

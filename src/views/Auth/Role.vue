@@ -192,6 +192,7 @@ export default {
           if (status) {
             this.tableData.splice(index, 1);
             this.$message.success("删除成功!");
+            this.$router.replace("/auth/role");
           }
         })
         .catch(() => {
