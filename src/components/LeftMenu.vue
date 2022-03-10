@@ -8,17 +8,14 @@
   >
     <template v-for="(item, index) in sideMenu">
       <el-menu-item v-if="item.path" :index="item.path">
-        <!-- <i :class="`el-icon-${item.icon}`"></i> -->
         <span slot="title">{{ item.name }}</span>
       </el-menu-item>
 
       <el-submenu v-else :index="index + '1'">
         <template slot="title">
-          <!-- <i :class="`el-icon-${item.icon}`"></i> -->
           <span slot="title">{{ item.name }}</span>
         </template>
         <el-menu-item v-for="element in item.children" :index="element.path">
-          <!-- <i :class="`el-icon-${element.icon}`"></i> -->
           <span slot="title">{{ element.name }}</span>
         </el-menu-item>
       </el-submenu>
