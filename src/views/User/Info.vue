@@ -19,7 +19,12 @@
           ></el-input>
         </el-form-item>
         <el-form-item label="姓名" prop="fullname">
-          <el-input v-model="form.fullname" auto-complete="off"></el-input>
+          <el-input
+            v-model.trim="form.fullname"
+            auto-complete="off"
+            maxlength="5"
+            show-word-limit
+          ></el-input>
         </el-form-item>
         <el-form-item label="性别" prop="sex">
           <el-radio-group v-model="form.sex">
@@ -30,6 +35,7 @@
         <el-form-item label="手机" prop="tel">
           <el-input v-model.number="form.tel" auto-complete="off"></el-input>
         </el-form-item>
+
         <el-form-item label="头像" prop="avatar">
           <single-upload
             default-image="http://localhost:3003/images/avatar/default.jpg"
@@ -38,26 +44,94 @@
             :url.sync="form.avatar"
           />
         </el-form-item>
+
         <el-button
           type="primary"
           @click="updateInfo"
           style="float: right; margin-bottom: 100px"
           >修 改</el-button
         >
+
+        <el-button
+          type="primary"
+          @click="dialogForm = true"
+          style="float: right; margin-bottom: 100px ; margin-right:20px"
+          >修改密码</el-button
+        >
       </el-form>
     </el-card>
+
+    <!-- 弹框 密码修改-->
+    <el-dialog
+      title="密码修改"
+      :visible.sync="dialogForm"
+      @close="handleCloseDialog"
+      :close-on-click-modal="false"
+      width="750px"
+      height="450px"
+    >
+      <el-form
+        :model="formPWD"
+        :rules="rulesPWD"
+        ref="formPWD"
+        label-width="100px"
+      >
+        <el-form-item label="密码" prop="password">
+          <el-input
+            placeholder="请输入密码!"
+            prefix-icon="el-icon-key"
+            type="password"
+            v-model="formPWD.password"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="再次输入密码" prop="checkpassword">
+          <el-input
+            placeholder="请输入密码!"
+            prefix-icon="el-icon-key"
+            type="password"
+            v-model="formPWD.checkpassword"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="handleCancle">取 消</el-button>
+        <el-button type="primary" @click="handleUpdata">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import SingleUpload from "@/components/SingleUpload.vue";
+import md5 from "js-md5";
 
 export default {
   components: {
     SingleUpload,
   },
   data() {
+    var validate = (rule, value, callback) => {
+      var pwdRegex = new RegExp("^[0-9]{3,15}$");
+      if (value === "") {
+        callback(new Error("请输入密码"));
+      } else if (!pwdRegex.test(value)) {
+        callback(new Error("请输入3-15位的密码"));
+      }
+      callback();
+    };
+    var validateCheckPwd = (rule, value, callback) => {
+      var pwdRegex = new RegExp("^[0-9]{3,15}$");
+      if (value === "") {
+        callback(new Error("请输入密码"));
+      } else if (!pwdRegex.test(value)) {
+        callback(new Error("请输入3-15位的密码"));
+      } else if (value != this.formPWD.password) {
+        callback(new Error("密码输入不一致"));
+      }
+      callback();
+    };
     return {
+      dialogForm: false,
       roles: [],
       form: {
         username: "",
@@ -95,6 +169,24 @@ export default {
           { required: true, message: "请上传一张头像！", trigger: "click" },
         ],
       },
+      formPWD: {
+        password: "",
+        checkpassword: "",
+      },
+      rulesPWD: {
+        password: [
+          {
+            validator: validate,
+            trigger: "blur",
+          },
+        ],
+        checkpassword: [
+          {
+            validator: validateCheckPwd,
+            trigger: "blur",
+          },
+        ],
+      },
     };
   },
   created() {
@@ -114,6 +206,32 @@ export default {
     });
   },
   methods: {
+    handleUpdata() {
+      this.$refs["formPWD"].validate((valid) => {
+        if (!valid) {
+          return false;
+        }
+        let { role } = this.form;
+        this.formPWD.password = md5(this.formPWD.password);
+        this.$store
+          .dispatch("User/Update", { ...this.formPWD })
+          .then(({ status, msg }) => {
+            if (status) {
+              localStorage.setItem("role", role);
+              this.$message.success(msg);
+              this.dialogForm = false;
+            }
+          });
+      });
+    },
+    handleCancle() {
+      this.dialogForm = false;
+      this.$refs["formPWD"].resetFields();
+    },
+    handleCloseDialog() {
+      this.dialogForm = false;
+      this.$refs["formPWD"].resetFields();
+    },
     // 修改账户信息
     updateInfo() {
       this.$refs.form.validate((valid) => {

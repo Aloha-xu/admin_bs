@@ -13,7 +13,7 @@
       </el-tabs>
       <!-- table -->
       <el-table :data="tableData" style="width: 100%">
-        <el-table-column prop="id" label="#" width="50"></el-table-column>
+        <el-table-column type="index" label="#" width="50"></el-table-column>
         <el-table-column width="750">
           <template slot-scope="scope">
             <el-table :data="scope.row.goodsList">
@@ -103,6 +103,18 @@
           </template>
         </el-table-column>
       </el-table>
+
+      <!-- 分页器 -->
+      <el-pagination
+        :page-sizes="[5, 10, 15, 20]"
+        :page-size="pageSize"
+        :total="total"
+        @size-change="pageSizeChange"
+        @current-change="currentPageChange"
+        background
+        layout="->,prev,pager,next,sizes,total"
+        class="am-margin-top-sm"
+      ></el-pagination>
     </div>
 
     <!-- pop快递信息 -->
@@ -119,10 +131,18 @@
         :label-position="'left'"
       >
         <el-form-item label="快递公司" prop="shipName">
-          <el-input v-model="shipForm.shipName"></el-input>
+          <el-input
+            v-model.trim="shipForm.shipName"
+            maxlength="4"
+            show-word-limit
+          ></el-input>
         </el-form-item>
         <el-form-item label="快递单号" prop="shipNumber">
-          <el-input v-model="shipForm.shipNumber"></el-input>
+          <el-input
+            v-model.number="shipForm.shipNumber"
+            maxlength="20"
+            show-word-limit
+          ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -216,6 +236,9 @@ export default {
           { required: true, message: "请输入快递编号！", trigger: "blur" },
         ],
       },
+      total: 0,
+      pageSize: 5,
+      pageIndex: 1,
     };
   },
   created() {
@@ -223,21 +246,33 @@ export default {
     document.title = "订单列表";
   },
   methods: {
+    // 分页器改变页码数
+    currentPageChange(pageIndex) {
+      this.pageIndex = pageIndex;
+      this.loadList();
+    },
+    // 分页器pageSize改变
+    pageSizeChange(size) {
+      this.pageSize = size;
+      this.loadList();
+    },
+
     handleClick(tab, event) {
       this.activeName = tab.name;
       this.loadList();
     },
     async loadList() {
-      let { status, data } = await Order.loadList({
+      let { status, data, total } = await Order.loadList({
         status: +this.activeName,
-        pageSize: 20,
-        pageIndex: 1,
+        pageSize: this.pageSize,
+        pageIndex: this.pageIndex,
       });
       if (status) {
         // data.forEach(function(item) {
         //   item.createTime = getYMDHMS(+item.createTime * 1000);
         // });
         this.tableData = data;
+        this.total = total;
       }
     },
     //处理发货退货弹出框

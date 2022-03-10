@@ -30,7 +30,7 @@
         <el-table-column prop="loginTime" width="160" label="上次登录">
         </el-table-column>
         <el-table-column prop="loginCount" label="登录次数"> </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="300">
           <template slot-scope="scope">
             <el-button
               @click="showEditModal(scope.row, scope.$index)"
@@ -47,6 +47,13 @@
               size="small"
               type="danger"
             ></el-button>
+            <el-button
+              type="primary"
+              @click="
+                handleShowUpdatePwdDialog(scope.row.adminId, scope.row.username)
+              "
+              >修改密码</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -66,7 +73,12 @@
         label-width="80px"
       >
         <el-form-item label="姓名" prop="fullname">
-          <el-input v-model="form.fullname" auto-complete="off"></el-input>
+          <el-input
+            v-model="form.fullname"
+            auto-complete="off"
+            maxlength="5"
+            show-word-limit
+          ></el-input>
         </el-form-item>
         <el-form-item label="性别" prop="sex">
           <el-radio-group v-model="form.sex">
@@ -105,6 +117,49 @@
         <el-button type="primary" @click="handleEdit">修 改</el-button>
       </div>
     </el-dialog>
+
+    <!-- 弹框 密码修改-->
+    <el-dialog
+      title="密码修改"
+      :visible.sync="dialogForm"
+      @close="handleCloseDialogPWD"
+      :close-on-click-modal="false"
+      width="750px"
+      height="450px"
+    >
+      <el-form
+        :model="formPWD"
+        :rules="rulesPWD"
+        ref="formPWD"
+        label-width="100px"
+      >
+        <el-form-item label="用户名">
+          <el-input
+            type="text"
+            v-model="formPWD.username"
+            :disabled="true"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input
+            placeholder="请输入密码!"
+            type="password"
+            v-model="formPWD.password"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" prop="checkpassword">
+          <el-input
+            placeholder="请输入密码!"
+            type="password"
+            v-model="formPWD.checkpassword"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="handleCancle">取 消</el-button>
+        <el-button type="primary" @click="handleUpdata">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -112,13 +167,33 @@
 //引入service模块
 import { Admin, Role } from "@/api/index";
 import SingleUpload from "@/components/SingleUpload.vue";
-
+import md5 from "js-md5";
 export default {
   name: "List",
   components: {
     SingleUpload,
   },
   data() {
+    var validate = (rule, value, callback) => {
+      var pwdRegex = new RegExp("^[0-9]{3,15}$");
+      if (value === "") {
+        callback(new Error("请输入密码"));
+      } else if (!pwdRegex.test(value)) {
+        callback(new Error("请输入3-15位的密码"));
+      }
+      callback();
+    };
+    var validateCheckPwd = (rule, value, callback) => {
+      var pwdRegex = new RegExp("^[0-9]{3,15}$");
+      if (value === "") {
+        callback(new Error("请输入密码"));
+      } else if (!pwdRegex.test(value)) {
+        callback(new Error("请输入3-15位的密码"));
+      } else if (value != this.formPWD.password) {
+        callback(new Error("密码输入不一致"));
+      }
+      callback();
+    };
     return {
       tableData: [],
       roles: [],
@@ -162,6 +237,28 @@ export default {
           { required: true, message: "请上传一张头像！", trigger: "click" },
         ],
       },
+      //修改密码
+      dialogForm: false,
+      formPWD: {
+        password: "",
+        checkpassword: "",
+        username: "",
+        adminId: "",
+      },
+      rulesPWD: {
+        password: [
+          {
+            validator: validate,
+            trigger: "blur",
+          },
+        ],
+        checkpassword: [
+          {
+            validator: validateCheckPwd,
+            trigger: "blur",
+          },
+        ],
+      },
     };
   },
   created() {
@@ -170,6 +267,38 @@ export default {
     document.title = "用户列表";
   },
   methods: {
+    // 修改密码弹窗控制函数
+    handleShowUpdatePwdDialog(adminId, username) {
+      this.dialogForm = true;
+      this.formPWD.username = username;
+      this.formPWD.adminId = adminId;
+    },
+    //修改密码
+    handleUpdata() {
+      this.$refs["formPWD"].validate(async (valid) => {
+        if (!valid) {
+          return false;
+        }
+        this.formPWD.password = md5(this.formPWD.password);
+        let { status, msg } = await Admin.update({ ...this.formPWD });
+        if (status) {
+          this.dialogForm = false;
+          this.$message.success(msg);
+          this.loadList();
+        }
+      });
+    },
+    //取消 清除校验
+    handleCancle() {
+      this.dialogForm = false;
+      this.$refs["formPWD"].resetFields();
+    },
+    //关闭 清除校验
+    handleCloseDialogPWD() {
+      this.dialogForm = false;
+      this.$refs["formPWD"].resetFields();
+    },
+
     //加载列表
     async loadList() {
       let { status, data } = await Admin.list();

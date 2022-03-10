@@ -66,6 +66,7 @@
 
 <script>
 import { User } from "@/api/index.js";
+import md5 from "js-md5";
 export default {
   data() {
     return {
@@ -83,8 +84,8 @@ export default {
           {
             type: "string",
             min: 3,
-            max: 15,
-            message: "长度在 3 到 15 个字符",
+            max: 12,
+            message: "长度在 3 到 12 个字符",
             trigger: "blur",
           },
         ],
@@ -130,6 +131,7 @@ export default {
       this.$refs.form.validate(async (valid, obj) => {
         if (valid) {
           // 2.提取数据
+          this.form.password = md5(this.form.password);
           let { msg, data, status } = await User.register({ ...this.form });
           if (!status) {
             this.$message.error(msg);

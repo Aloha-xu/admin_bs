@@ -63,13 +63,12 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
+  height: 60px;
   .left {
     display: flex;
     align-items: center;
-
     .logo {
-      height: 50px;
+      height: 60px;
     }
   }
 }

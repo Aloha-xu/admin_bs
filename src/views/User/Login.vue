@@ -41,14 +41,15 @@
 
 <script>
 import { User } from "@/api/";
+import md5 from "js-md5";
 
 export default {
   props: ["redirect"],
   data() {
     return {
       form: {
-        username: "admin",
-        password: "123456",
+        username: "",
+        password: "",
       },
       rules: {
         username: [
@@ -80,7 +81,10 @@ export default {
       // 提取数据
       this.$refs.form.validate(async (valid) => {
         if (valid) {
-          let { data, msg, status } = await User.login({ ...this.form });
+          this.form.password = md5(this.form.password);
+          let { data, msg, status } = await User.login({
+            ...this.form,
+          });
           if (!status) {
             this.$message.error(msg);
             return;
