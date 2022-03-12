@@ -70,15 +70,13 @@
         :label-position="'left'"
       >
         <el-form-item label="名称" prop="name">
-          <el-input v-model="editForm.name" autocomplete="off"></el-input>
+          <el-input
+            v-model.trim="editForm.name"
+            autocomplete="off"
+            maxlength="5"
+            show-word-limit
+          ></el-input>
         </el-form-item>
-        <!-- <el-form-item label="图片" prop="img">
-          <single-upload
-            :data="{ type: 'common' }"
-            action="/api/upload/common/"
-            :url.sync="editForm.img"
-          />
-        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="handleCloseDialog">取 消</el-button>
@@ -99,15 +97,13 @@
         :label-position="'left'"
       >
         <el-form-item label="名称" prop="name">
-          <el-input v-model="addForm.name" autocomplete="off"></el-input>
+          <el-input
+            v-model.trim="addForm.name"
+            autocomplete="off"
+            maxlength="5"
+            show-word-limit
+          ></el-input>
         </el-form-item>
-        <!-- <el-form-item label="图片" prop="img">
-          <single-upload
-            :data="{ type: 'common' }"
-            action="/api/upload/common/"
-            :url.sync="addForm.img"
-          />
-        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="addModalVisible = false">取 消</el-button>
@@ -126,23 +122,8 @@ export default {
     SingleUpload,
   },
   data() {
-    // 图片验证插件
-    // var validateImage = (rule, value, callback) => {
-    //   // 只在level === 4时，需要上传图片
-    //   if (this.currentLevel != 4) {
-    //     return callback();
-    //   }
-    //   // 空值校验
-    //   if (value === "") {
-    //     callback(new Error("请上传一张分类图片!"));
-    //   }
-    //   // 有效值，通过验证
-    //   callback();
-    // };
     return {
       defaultProps: { label: "name" },
-      //没用
-      // headers: { Authorization: `Bearer ${sessionStorage.token}` },
       editModalVisible: false,
       editForm: {
         name: "",
@@ -253,30 +234,7 @@ export default {
           this.$message.info("已取消删除");
         });
     },
-    // 校验图片是否为空
-    // checkImage() {
-    //   // currentLevel = 4 需要上传图片
-    //   if (this.currentLevel != 4) {
-    //     return Promise.resolve(true);
-    //   }
-    //   return new Promise((resolve, reject) => {
-    //     this.$refs.editForm.validateField("img", (msg) => {
-    //       if (msg) {
-    //         this.$message.error(msg);
-    //         resolve(false);
-    //       } else {
-    //         resolve(true);
-    //       }
-    //     });
-    //   });
-    // },
-    // 关闭编辑dialog之前，校验图片是否删除
-    // async handleBeforeCloseDialog(done) {
-    //   let isValid = await this.checkImage();
-    //   if (isValid) {
-    //     done();
-    //   }
-    // },
+
     // 关闭编辑dialog
     async handleCloseDialog() {
       // let isValid = await this.checkImage();

@@ -10,7 +10,7 @@
     <!-- 订单备注 -->
 
     <el-card shadow="always">
-      <el-descriptions title="订单详细" style="margin-bottom:20px">
+      <el-descriptions title="订单详细" style="margin-bottom: 20px">
         <el-descriptions-item label="订单编号">
           {{ orderId && orderId }}
         </el-descriptions-item>
@@ -47,7 +47,7 @@
         :column="2"
         border
         size="large"
-        style="margin-top:20px"
+        style="margin-top: 20px"
       >
         <el-descriptions-item :labelStyle="{ width: '150px' }">
           <template slot="label">
@@ -70,9 +70,9 @@
           </template>
           {{
             addressInfo.province +
-              addressInfo.city +
-              addressInfo.county +
-              addressInfo.address
+            addressInfo.city +
+            addressInfo.county +
+            addressInfo.street
           }}
         </el-descriptions-item>
       </el-descriptions>
@@ -84,18 +84,22 @@
         :model="form"
         label-width="80px"
         size="medium"
-        style="margin-top:20px"
+        style="margin-top: 20px"
       >
         <el-form-item label="快递公司" props="shipName">
           <el-input
             v-model.trim="form.shipName"
             :disabled="orderInfo.code == 1 ? false : true"
+            maxlength="4"
+            show-word-limit
           ></el-input>
         </el-form-item>
         <el-form-item label="快递单号" props="shipNumber">
           <el-input
             v-model.trim="form.shipNumber"
             :disabled="orderInfo.code == 1 ? false : true"
+            maxlength="20"
+            show-word-limit
           ></el-input>
         </el-form-item>
         <el-form-item label="邮 费" props="freightPrice">
@@ -118,7 +122,7 @@
       <el-button
         type="primary"
         @click="handleUpdateOrder"
-        style="float:right ; margin-bottom:20px"
+        style="float: right; margin-bottom: 20px"
         >修 改</el-button
       >
     </el-card>
@@ -155,12 +159,8 @@ export default {
       this.orderGoods = orderallinfo.data.orderGoods;
       this.addressInfo = orderallinfo.data.addressInfo;
       this.orderInfo = orderallinfo.data.orderInfo;
-      let {
-        shipName,
-        shipNumber,
-        freightPrice,
-        note,
-      } = orderallinfo.data.orderInfo;
+      let { shipName, shipNumber, freightPrice, note } =
+        orderallinfo.data.orderInfo;
       this.form = {
         shipName,
         shipNumber,
