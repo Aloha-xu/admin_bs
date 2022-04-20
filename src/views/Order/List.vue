@@ -16,6 +16,10 @@
         <el-table-column type="index" label="#" width="50"></el-table-column>
         <el-table-column width="750">
           <template slot-scope="scope">
+            <div style="margin: 10px 0px 10px 7px">
+              订单号 :
+              <span style="margin-left: 10px">{{ scope.row.orderId }}</span>
+            </div>
             <el-table :data="scope.row.goodsList">
               <el-table-column prop="name" label="商品" width="500">
                 <template slot-scope="scope">
@@ -26,7 +30,6 @@
                     <div class="name">
                       <span>{{ scope.row.name }}</span>
                       <br />
-                      <span>订单号:{{ scope.row.orderId }}</span>
                     </div>
                   </div>
                 </template>

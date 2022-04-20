@@ -32,8 +32,8 @@
         </el-form-item>
       </el-form>
       <div class="link-box">
+        <router-link to="/"></router-link>
         <router-link to="/register">注册账户</router-link>
-        <router-link to="/">忘记密码？</router-link>
       </div>
     </el-card>
   </div>
@@ -63,12 +63,12 @@ export default {
         ],
         password: [
           { required: true, message: "请输入密码！", trigger: "blur" },
-          {
-            type: "string",
-            pattern: /^[0-9]{3,}$/,
-            message: "密码至少3位数字",
-            trigger: "blur",
-          },
+          // {
+          //   type: "string",
+          //   pattern: /^[0-9]{3,}$/,
+          //   message: "密码至少3位数字",
+          //   trigger: "blur",
+          // },
         ],
       },
     };
@@ -115,8 +115,8 @@ export default {
 .bg {
   width: 100vw;
   height: 100vh;
-  // background: url(../../assets/img/login/login-bg.jpg);
-  // background-size: cover;
+  background: url(../../assets/img/login/login-bg.jpg);
+  background-size: cover;
   position: relative;
 
   .form-box {

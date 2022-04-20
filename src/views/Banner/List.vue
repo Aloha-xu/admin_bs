@@ -7,7 +7,7 @@
           type="primary"
           plain
           @click="handleAddBanner"
-          style="float:right"
+          style="float: right"
           >添加</el-button
         >
       </div>
@@ -93,11 +93,11 @@
             action="/api/upload/goods"
           ></main-photo-upload>
           <el-col :span="24" class="tip">
-            上传商品默认主图，如多规格时将默认图片或分规格上传规格主图，支持jpg、if、png格式上传或从图片空间选中，建议使用尺寸
+            上传轮播图，支持jpg、if、png格式上传或从图片空间选中，建议使用尺寸
             800*800像素以上，大小不超过2M的图片，上传后的图片将自动保存在图片空间的默认分类中
           </el-col>
         </el-form-item>
-        <el-form-item label="状态">
+        <el-form-item label="状态" prop="state">
           <el-switch
             v-model="form.state"
             :active-value="1"
@@ -108,7 +108,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="handleClosedDialog('formRef')">取 消</el-button>
+        <el-button @click="ModalVisible = false">取 消</el-button>
         <el-button type="primary" @click="handleUpdateInfo">确 定</el-button>
       </div>
     </el-dialog>
